@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import configYAML from 'config/config';
+import { AppConfig } from 'config/config.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [AppConfig, MongooseModule.forRoot(configYAML().db.mongodb), ProductsModule],
+    // middleware or api here controller
+    controllers: [],
+    providers: [],
 })
 export class AppModule {}
