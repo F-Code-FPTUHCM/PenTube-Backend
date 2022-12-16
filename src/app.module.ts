@@ -5,7 +5,12 @@ import { AppConfig } from 'config/config.module';
 import { ProductsModule } from './products/products.module';
 
 @Module({
-    imports: [AppConfig, MongooseModule.forRoot(configYAML().db.mongodb), ProductsModule],
+    imports: [
+        AppConfig,
+        ProductsModule,
+        MongooseModule.forRoot(configYAML().db.mongodb),
+        ProductsModule,
+    ],
     // middleware or api here controller
     controllers: [],
     providers: [],
