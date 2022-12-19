@@ -10,4 +10,8 @@ export class VideosService {
     async findAll(): Promise<Video[]> {
         return await this.videosModel.find().exec();
     }
+    async postVideo(video: Video): Promise<Video> {
+        const newVideo = new this.videosModel(video);
+        return await newVideo.save();
+    }
 }
