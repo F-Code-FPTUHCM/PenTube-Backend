@@ -13,8 +13,8 @@ lerna-debug.log*
 
 # OS
 .DS_Store
-
 # .env
+config.yaml
 .env
 .env.local
 .env.development.local
