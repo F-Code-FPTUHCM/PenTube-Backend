@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { VideosModule } from './videos/videos.module';
+import { VideosModule } from './videos/video.module';
 import { ApiController } from './api.Controller';
 
 @Module({

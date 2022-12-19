@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VideoSchema } from './videos.schema';
-import { VideosService } from './videos.service';
-import { VideosController } from './videos.controller';
+import { VideoSchema } from './video.schema';
+import { VideosService } from './video.service';
+import { VideosController } from './video.controller';
 
 @Module({
     imports: [MongooseModule.forFeature([{ name: 'Videos', schema: VideoSchema }])],

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { User } from 'src/Users/users.schema';
+import { User } from 'src/Users/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
 
@@ -36,7 +36,7 @@ export class Video {
     @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }])
     likes: User;
 
-    @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }])
+    @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
     dislikes: User;
 
     @Prop({ default: 0 })
