@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Get, Patch, Param, Delete } from '@nestjs/common';
-import { Product } from './products.modal';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ProductsService } from './products.services';
 
 @Controller('products')
