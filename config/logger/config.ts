@@ -4,7 +4,7 @@ import { LoggerService } from '@nestjs/common';
 export class ConfigLogger implements LoggerService {
     // Logging information
     log(message: any, context?: string) {
-        console.log(message);
+        console.log(message, context);
     }
 
     error(message: any, trace?: string, context?: string) {

@@ -1,10 +1,10 @@
 http:
-  port: 5000,
-  host: 'localhost'
+    port: 4000
+    host: 'localhost'
 db:
-  mongodb:
-    host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/nest-demo?retryWrites=true&w=majority'
-    name: 'localhost'
-    username: 'nghia14302'
-    password: 'nghia14302'
-    database: 'nest-demo'
+    mongodb:
+        host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
+        name: 'localhost'
+        username: 'nghia14302'
+        password: 'nghia14302'
+        database: 'nest-demo'
