@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Ip, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Ip,
+    Post,
+    HttpException,
+    HttpStatus,
+    UseFilters,
+} from '@nestjs/common';
 import { Video } from './video.schema';
 import { VideosService } from './video.service';
 import { videoDTO } from './video.dto';
+import { HttpExceptionFilter } from './../Exception/exception.filter';
+import { BadRequestException } from './../Exception/BadReqestException';
 
 @Controller('/video')
 export class VideosController {
@@ -14,6 +25,13 @@ export class VideosController {
     }
     @Post()
     async postVideo(@Body() video: videoDTO): Promise<Video> {
-        return await this.videosService.postVideo(video);
+        try {
+            return await this.videosService.postVideo(video);
+        } catch (error) {
+            console.log(error);
+            if (error.name === 'ValidationError') {
+                throw new BadRequestException(error.message);
+            }
+        }
     }
 }
