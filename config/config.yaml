@@ -1,6 +1,7 @@
 http:
     port: 4000
     host: 'localhost'
+env: 'development'
 db:
     mongodb:
         host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
