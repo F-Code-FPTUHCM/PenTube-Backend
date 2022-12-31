@@ -32,7 +32,7 @@ export class VideoService {
         if (!video.id.match(/^[0-9a-fA-F]{24}$/)) {
             throw new ResponseException(400, 'Invalid Id');
         }
-        return await this.videoModel.findByIdAndUpdate({ _id: video.id }, video).exec();
+        return await this.videoModel.findByIdAndUpdate(video.id, video).exec();
     }
 
     async upsertVideo(video: VideoDTO): Promise<any> {
@@ -56,9 +56,9 @@ export class VideoService {
         const user = await this.userModel.findOne({ _id: viewDTO.userId });
 
         // check if exists
-        // if (!user) {
-        //     throw new ResponseException(404, 'User not found');
-        // }
+        if (!user) {
+            throw new ResponseException(404, 'User not found');
+        }
         if (!video) {
             throw new ResponseException(404, 'Video not found');
         }
