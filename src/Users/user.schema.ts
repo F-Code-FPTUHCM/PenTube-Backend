@@ -1,11 +1,12 @@
-import { Schema, Prop, raw } from '@nestjs/mongoose';
-import mongoose, { Date, ObjectId } from 'mongoose';
+import { Schema, Prop, raw, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Date, ObjectId, HydratedDocument } from 'mongoose';
 
 export interface History {
     videos: ObjectId;
     lastVisitedAt: Date;
 }
 
+export type UserDocument = HydratedDocument<User>;
 @Schema()
 export class User {
     @Prop({ required: true })
@@ -28,3 +29,5 @@ export class User {
     ])
     histories: History;
 }
+
+export const UserSchema = SchemaFactory.createForClass(User);

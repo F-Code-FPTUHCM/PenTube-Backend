@@ -1,5 +1,6 @@
 import { invalidateMessage } from './../../config/validationPipes/config';
-import { IsDate, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
+import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
+import { IsOptional } from 'class-validator';
 
 export class VideoDTO {
     id: string;
@@ -25,16 +26,16 @@ export class VideoDTO {
 
     key: string;
 
-    views: string[];
-
     likes: string[];
 
     dislikes: string[];
 
+    @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
     totalViews: number;
 
+    @IsOptional()
     @IsDate({ message: invalidateMessage.invalid })
     createdAt: Date;
 
@@ -47,16 +48,22 @@ export class ViewDTO {
     })
     userId: string;
 
-    @IsNotEmpty({ message: invalidateMessage.required })
+    @IsOptional()
     @ValidateIf(o => o.userId)
     @IsNumber({}, { message: invalidateMessage.invalid })
     frameWatched: number;
 
-    @IsNotEmpty({ message: invalidateMessage.required })
+    @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
     @ValidateIf(o => o.userId)
     count: number;
+
+    @IsOptional()
+    @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
+    @Min(0, { message: invalidateMessage.invalid })
+    @ValidateIf(o => o.userId)
+    currentFrame: number;
 
     location: string;
 }

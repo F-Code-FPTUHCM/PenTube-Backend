@@ -61,6 +61,9 @@ export class View {
     frameWatched: number;
 
     @Prop({ default: 0, min: 0 })
+    currentFrame: number;
+
+    @Prop({ default: 0, min: 0 })
     count: number;
 
     @Prop()
