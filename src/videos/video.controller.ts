@@ -5,7 +5,7 @@ import { VideoDTO, ViewDTO } from './video.dto';
 import { ResponseModal } from './../Response/response.modal';
 import { Param, UsePipes } from '@nestjs/common/decorators';
 
-@Controller('/video')
+@Controller()
 export class VideosController {
     constructor(private readonly videoService: VideoService) {}
 
@@ -24,9 +24,9 @@ export class VideosController {
         await this.videoService.upsertVideo(video);
         return new ResponseModal(200, 'Success');
     }
-    @Put(':id')
-    async updateView(@Param('id') id: string, @Body() viewDTO: ViewDTO): Promise<ResponseModal> {
-        await this.videoService.updateView(id, viewDTO);
+    @Put('/view')
+    async updateView(@Body() viewDTO: ViewDTO): Promise<ResponseModal> {
+        await this.videoService.updateView(viewDTO);
         return new ResponseModal(200, 'Success');
     }
 }

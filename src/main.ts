@@ -11,6 +11,7 @@ async function bootstrap() {
     });
     app.useGlobalFilters(new HttpExceptionFilter(new Logger()));
     app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
+    app.setGlobalPrefix(`/api/${configYAML().api.version}`);
     await app
         .listen(configYAML().http.port)
         .then(() => console.log('Listening on port ' + configYAML().http.port));

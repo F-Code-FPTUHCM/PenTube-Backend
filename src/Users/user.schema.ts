@@ -30,4 +30,4 @@ export class User {
     histories: History;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const UsersSchema = SchemaFactory.createForClass(User);

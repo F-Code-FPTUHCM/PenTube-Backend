@@ -48,21 +48,23 @@ export class ViewDTO {
     })
     userId: string;
 
+    @IsNotEmpty({
+        message: invalidateMessage.required,
+    })
+    videoId: string;
+
     @IsOptional()
-    @ValidateIf(o => o.userId)
     @IsNumber({}, { message: invalidateMessage.invalid })
     frameWatched: number;
 
     @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
-    @ValidateIf(o => o.userId)
     count: number;
 
     @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
-    @ValidateIf(o => o.userId)
     currentFrame: number;
 
     location: string;

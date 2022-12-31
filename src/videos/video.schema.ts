@@ -33,9 +33,6 @@ export class Video {
     @Prop({ default: null })
     key: string;
 
-    @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Views' }] })
-    views: string[];
-
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
     likes: User[];
 
@@ -56,6 +53,9 @@ export class Video {
 export class View {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
     userId: string;
+
+    @Prop({ required: true })
+    videoId: string;
 
     @Prop({ default: 0, min: 0 })
     frameWatched: number;

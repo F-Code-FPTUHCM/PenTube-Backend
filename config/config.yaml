@@ -1,6 +1,8 @@
 http:
     port: 4000
     host: 'localhost'
+api:
+    version: v1
 env: 'development'
 db:
     mongodb:

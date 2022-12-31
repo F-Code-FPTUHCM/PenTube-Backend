@@ -1,10 +1,14 @@
+import { RouterModule } from '@nestjs/core';
 import { Module } from '@nestjs/common';
-import { VideosModule } from './videos/video.module';
-import { ApiController } from './api.Controller';
+import { VideoModule } from './videos/video.module';
+
+// Add all api modules with a specific path
+const routeModules = [{ path: 'video', module: VideoModule }];
 
 @Module({
-    imports: [VideosModule],
-    controllers: [ApiController],
+    // import both module
+    imports: [VideoModule, RouterModule.register(routeModules)],
+    controllers: [],
     providers: [],
 })
 export class ApiModule {}

@@ -12,7 +12,7 @@ export class VideoService {
     constructor(
         @InjectModel('Videos') private readonly videoModel: Model<VideoDocument>,
         @InjectModel('Views') private readonly viewModel: Model<ViewDocument>,
-        @InjectModel('User') private readonly userModel: Model<UserDocument>,
+        @InjectModel('Users') private readonly userModel: Model<UserDocument>,
     ) {}
 
     async findAll(): Promise<Video[]> {
@@ -46,14 +46,14 @@ export class VideoService {
         return await this.postVideo(video);
     }
 
-    async updateView(id: string, viewDTO: ViewDTO): Promise<any> {
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            throw new ResponseException(400, 'Invalid Id');
-        }
+    async updateView(viewDTO: ViewDTO): Promise<any> {
         // find existing video and view
-        const video = await this.videoModel.findById(id);
-        let newView = await this.viewModel.findOne({ userId: viewDTO.userId });
-        const user = await this.userModel.findOne({ _id: viewDTO.userId });
+        const video = await this.videoModel.findById(viewDTO.videoId);
+        const user = await this.userModel.findById(viewDTO.userId);
+        let newView = await this.viewModel.findOne({
+            userId: viewDTO.userId,
+            videoId: viewDTO.videoId,
+        });
 
         // check if exists
         if (!user) {
@@ -62,22 +62,25 @@ export class VideoService {
         if (!video) {
             throw new ResponseException(404, 'Video not found');
         }
+
+        // create new view if the person not viewed the video yet
         if (!newView) {
-            // create new view if the person not viewed the video yet
             newView = new this.viewModel(viewDTO);
             newView.count = 0;
         } else {
             await this.videoModel.updateOne(viewDTO);
         }
+
+        // Update view by check the number of frame viewed
         if (viewDTO.frameWatched / video.totalFrame > 0.9) {
             newView.count++;
         }
         if (viewDTO.frameWatched === video.totalFrame) {
             newView.frameWatched = 0;
         }
-        // push the new view to views list of the video
-        video.views.push(newView._id.toString());
         video.totalViews++;
+
+        //save to database
         newView.save();
         return await video.save();
     }
