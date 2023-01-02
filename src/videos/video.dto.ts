@@ -1,10 +1,10 @@
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
-import { IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional } from 'class-validator';
 
 export class VideoDTO {
+    @IsOptional()
     id: string;
-
     @IsNotEmpty({})
     title: string;
 
@@ -67,5 +67,27 @@ export class ViewDTO {
     @Min(0, { message: invalidateMessage.invalid })
     currentFrame: number;
 
-    location: string;
+    @IsOptional()
+    @IsBoolean()
+    isWatched: boolean;
+
+    @IsOptional()
+    location: string[];
+}
+
+export class Location {
+    @IsNotEmpty()
+    country: string;
+
+    @IsNotEmpty()
+    code: string;
+
+    @IsNotEmpty()
+    city: string;
+
+    @IsNotEmpty()
+    region: string;
+
+    @IsNumber()
+    totalView: number;
 }

@@ -4,7 +4,7 @@ import { User } from 'src/Users/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
 export type ViewDocument = HydratedDocument<View>;
-
+export type LocationDocument = HydratedDocument<Location>;
 @Schema()
 export class Video {
     @Prop({ required: true })
@@ -54,7 +54,7 @@ export class View {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
     userId: string;
 
-    @Prop({ required: true })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Videos', required: true })
     videoId: string;
 
     @Prop({ default: 0, min: 0 })
@@ -66,9 +66,30 @@ export class View {
     @Prop({ default: 0, min: 0 })
     count: number;
 
-    @Prop()
-    location: string;
+    @Prop({ default: 0, min: 0 })
+    isWatched: boolean;
+
+    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locations' }] })
+    Location: string;
+}
+
+export class Location {
+    @Prop({ required: true })
+    code: string;
+
+    @Prop({ required: true })
+    country: string;
+
+    @Prop({ required: true })
+    region: string;
+
+    @Prop({ required: true })
+    city: string;
+
+    @Prop({ default: 0 })
+    totalView: number;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);
 export const ViewVideoSchema = SchemaFactory.createForClass(View);
+export const LocationSchema = SchemaFactory.createForClass(Location);

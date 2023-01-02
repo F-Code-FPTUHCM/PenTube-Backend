@@ -2,11 +2,10 @@ import { UserDocument } from './../Users/user.schema';
 import { UserDTO } from './../Users/user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model, ObjectId, Query } from 'mongoose';
+import { Model, ObjectId, Query } from 'mongoose';
 import { Video, VideoDocument, ViewDocument } from './video.schema';
 import { VideoDTO, ViewDTO } from './video.dto';
 import { ResponseException } from './../Exception/ResponseException';
-
 @Injectable()
 export class VideoService {
     constructor(
@@ -46,7 +45,7 @@ export class VideoService {
         return await this.postVideo(video);
     }
 
-    async updateView(viewDTO: ViewDTO): Promise<any> {
+    async updateView(viewDTO: ViewDTO, ip: string): Promise<any> {
         // find existing video and view
         const video = await this.videoModel.findById(viewDTO.videoId);
         const user = await this.userModel.findById(viewDTO.userId);
@@ -72,11 +71,13 @@ export class VideoService {
         }
 
         // Update view by check the number of frame viewed
-        if (viewDTO.frameWatched / video.totalFrame > 0.9) {
+        if (viewDTO.frameWatched / video.totalFrame > 0.9 && !newView.isWatched) {
             newView.count++;
+            newView.isWatched = true;
         }
         if (viewDTO.frameWatched === video.totalFrame) {
             newView.frameWatched = 0;
+            newView.isWatched = false;
         }
         video.totalViews++;
 
