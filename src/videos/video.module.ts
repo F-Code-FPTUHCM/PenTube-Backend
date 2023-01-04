@@ -1,7 +1,7 @@
 import { UsersSchema } from './../Users/user.schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VideoSchema, ViewVideoSchema } from './video.schema';
+import { VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
 import { VideoService } from './video.service';
 import { VideosController } from './video.controller';
 
@@ -11,6 +11,7 @@ import { VideosController } from './video.controller';
             { name: 'Videos', schema: VideoSchema },
             { name: 'Views', schema: ViewVideoSchema },
             { name: 'Users', schema: UsersSchema },
+            { name: 'Locations', schema: LocationSchema },
         ]),
     ],
     controllers: [VideosController],

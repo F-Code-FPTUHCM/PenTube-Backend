@@ -1,3 +1,4 @@
+import { DEMO_IP } from './demoIP';
 import { Body, Controller, Get, Ip, Post, Put, ValidationPipe } from '@nestjs/common';
 import { Video } from './video.schema';
 import { VideoService } from './video.service';
@@ -11,9 +12,8 @@ export class VideosController {
     constructor(private readonly videoService: VideoService) {}
 
     @Get()
-    async findAll(@RealIP() ip: string): Promise<ResponseModal<Video[]>> {
+    async findAll(): Promise<ResponseModal<Video[]>> {
         const result = await this.videoService.findAll();
-        console.log(ip.split(':').pop());
         return new ResponseModal<Video[]>(200, 'Success', result);
     }
     @Get(':id')
@@ -28,8 +28,9 @@ export class VideosController {
         return new ResponseModal(200, 'Success');
     }
     @Put('/view')
-    async updateView(@Body() viewDTO: ViewDTO, @Ip() ip: string): Promise<ResponseModal> {
-        await this.videoService.updateView(viewDTO, ip);
+    async updateView(@Body() viewDTO: ViewDTO, @RealIP() ip: string): Promise<ResponseModal> {
+        // TODO: change to real ip when public
+        await this.videoService.updateView(viewDTO, DEMO_IP.VN);
         return new ResponseModal(200, 'Success');
     }
 }

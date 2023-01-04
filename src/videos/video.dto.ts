@@ -1,3 +1,4 @@
+import { City } from './video.schema';
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
 import { IsBoolean, IsOptional } from 'class-validator';
@@ -74,8 +75,7 @@ export class ViewDTO {
     @IsOptional()
     location: string[];
 }
-
-export class Location {
+export class LocationDTO {
     @IsNotEmpty()
     country: string;
 
@@ -83,11 +83,24 @@ export class Location {
     code: string;
 
     @IsNotEmpty()
-    city: string;
+    city: City[];
 
     @IsNotEmpty()
     region: string;
 
     @IsNumber()
     totalView: number;
+
+    constructor(location: Record<string, any>) {
+        this.country = location.country.names.en;
+        this.region = location.continent.names.en;
+        this.city = [
+            {
+                name: location.city.names.en,
+                totalView: 0,
+            },
+        ];
+        this.code = location.country.isoCode;
+        this.totalView = 0;
+    }
 }

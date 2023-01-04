@@ -1,10 +1,20 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
 import { User } from 'src/Users/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
 export type ViewDocument = HydratedDocument<View>;
 export type LocationDocument = HydratedDocument<Location>;
+
+const CityRaw = {
+    name: {
+        type: String,
+    },
+    totalView: {
+        type: Number,
+    },
+};
+
 @Schema()
 export class Video {
     @Prop({ required: true })
@@ -70,21 +80,27 @@ export class View {
     isWatched: boolean;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locations' }] })
-    Location: string;
+    location: string[];
 }
 
+export class City {
+    name: string;
+    totalView: number;
+}
+
+@Schema()
 export class Location {
-    @Prop({ required: true })
+    @Prop({ default: null, required: true })
     code: string;
 
-    @Prop({ required: true })
+    @Prop({ default: null })
     country: string;
 
-    @Prop({ required: true })
+    @Prop({ default: null })
     region: string;
 
-    @Prop({ required: true })
-    city: string;
+    @Prop({ required: true, type: [raw({ ...CityRaw })] })
+    city: City[];
 
     @Prop({ default: 0 })
     totalView: number;
