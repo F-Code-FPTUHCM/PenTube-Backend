@@ -30,7 +30,7 @@ export class VideosController {
     @Put('/view')
     async updateView(@Body() viewDTO: ViewDTO, @RealIP() ip: string): Promise<ResponseModal> {
         // TODO: change to real ip when public
-        await this.videoService.updateView(viewDTO, DEMO_IP.VN);
+        await this.videoService.updateView(viewDTO, DEMO_IP.GB);
         return new ResponseModal(200, 'Success');
     }
 }

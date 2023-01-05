@@ -80,7 +80,7 @@ export class View {
     isWatched: boolean;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locations' }] })
-    location: string[];
+    location: Location[];
 }
 
 export class City {

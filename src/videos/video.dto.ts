@@ -96,7 +96,7 @@ export class LocationDTO {
         this.region = location.continent.names.en;
         this.city = [
             {
-                name: location.city.names.en,
+                name: location.city?.names.en || location.location.timeZone.split('/')[1],
                 totalView: 0,
             },
         ];
