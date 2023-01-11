@@ -13,7 +13,6 @@ import { PassportModule } from '@nestjs/passport';
         ProductsModule,
         ConfigModule.forRoot(),
         MongooseModule.forRoot(configYAML().db.mongodb.host),
-        ProductsModule,
         AuthModule,
         PassportModule.register({ session: true }),
     ],

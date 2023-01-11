@@ -5,12 +5,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Tokens } from './entities/token.type';
 import mongoose from 'mongoose';
 import { Cache } from 'cache-manager';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly userRepository: UserRepository,
         private readonly jwtService: JwtService,
+        private configService: ConfigService,
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
     ) {}
 
@@ -27,11 +29,11 @@ export class AuthService {
 
     async createToken(user: { email: string; sub: mongoose.Types.ObjectId }): Promise<Tokens> {
         const accessToken = await this.jwtService.signAsync(user, {
-            secret: process.env.TOKEN_SECRET_AT,
+            secret: this.configService.get<string>('token.secret_at'),
             expiresIn: 60 * 60 * 2,
         });
         const refreshToken = await this.jwtService.signAsync(user, {
-            secret: process.env.TOKEN_SECRET_RT,
+            secret: this.configService.get<string>('token.secret_rt'),
             expiresIn: 60 * 60 * 2,
         });
 

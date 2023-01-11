@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import mongoose from 'mongoose';
+import configYAML from 'config/config';
 
 type JwtPayload = {
     email: string;
@@ -16,7 +17,7 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: process.env.TOKEN_SECRET_RT,
+            secretOrKey: configYAML().token.secret_rt,
             passReqToCallback: true,
         });
     }

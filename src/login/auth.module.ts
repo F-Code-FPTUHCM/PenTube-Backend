@@ -1,3 +1,4 @@
+import { ConfigModule } from '@nestjs/config';
 import { UserRepository } from './auth.repository';
 import { CacheModule, Module } from '@nestjs/common';
 import { LoginController } from './auth.controller';
@@ -10,6 +11,7 @@ import { AtStrategy } from './utils/AtStrategy';
 import { RtStrategy } from './utils/RtStrategy';
 import { JwtModule } from '@nestjs/jwt';
 import * as redisStore from 'cache-manager-redis-store';
+import configYAML from 'config/config';
 
 @Module({
     imports: [
@@ -19,14 +21,15 @@ import * as redisStore from 'cache-manager-redis-store';
                 schema: UserSchema,
             },
         ]),
+        ConfigModule,
         JwtModule.register({}),
         CacheModule.register({
             // isGlobal: true,
             store: redisStore,
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-            // user: process.env.REDIS_USER,
-            // password: process.env.REDIS_PASSWORD,
+            host: configYAML().redis.host,
+            port: configYAML().redis.post,
+            // user: configYAML().redis.user,
+            // password: configYAML().redis.password,
         }),
     ],
     controllers: [LoginController],

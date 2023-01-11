@@ -3,8 +3,8 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import mongoose from 'mongoose';
 import { Request } from 'express';
-import { AuthService } from '../auth.service';
 import configYAML from 'config/config';
+import { AuthService } from 'src/login/auth.service';
 
 type JwtPayload = {
     email: string;
@@ -12,7 +12,7 @@ type JwtPayload = {
 };
 
 @Injectable()
-export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class CheckToken extends PassportStrategy(Strategy, 'check-token') {
     constructor(private readonly authService: AuthService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -25,15 +25,12 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
     async validate(req: Request, payload: JwtPayload) {
         try {
             const token = req.get('authorization').replace('Bearer', '').trim();
-            const refreshToken = req.get('refreshToken').replace('Bearer', '').trim();
             const statusToken = await this.authService.checkToken(token);
-            const statusRefreshToken = await this.authService.checkToken(refreshToken);
-            if (statusToken || statusRefreshToken) throw new ForbiddenException('Access denied');
+            if (statusToken) throw new ForbiddenException('Access denied');
             else
                 return {
                     ...payload,
                     token,
-                    refreshToken,
                 };
         } catch (error) {
             throw new ForbiddenException('Access denied');

@@ -11,7 +11,7 @@ async function bootstrap() {
     });
     app.use(
         session({
-            secret: process.env.SESSION_SECRET,
+            secret: configYAML().google.session_secret,
             resave: false,
             saveUninitialized: false,
         }),
