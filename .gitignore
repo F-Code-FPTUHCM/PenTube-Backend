@@ -16,6 +16,7 @@ lerna-debug.log*
 # .env
 config.yaml
 .env
+.env.example
 .env.local
 .env.development.local
 .env.production.local

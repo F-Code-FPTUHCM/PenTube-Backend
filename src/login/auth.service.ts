@@ -1,0 +1,64 @@
+import { UserRepository } from './auth.repository';
+import { Injectable, ForbiddenException, Inject, CACHE_MANAGER } from '@nestjs/common';
+import { UserDetails } from './entities/User';
+import { JwtService } from '@nestjs/jwt';
+import { Tokens } from './entities/token.type';
+import mongoose from 'mongoose';
+import { Cache } from 'cache-manager';
+
+@Injectable()
+export class AuthService {
+    constructor(
+        private readonly userRepository: UserRepository,
+        private readonly jwtService: JwtService,
+        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    ) {}
+
+    async validateUser(details: UserDetails) {
+        const user = await this.userRepository.findOne({ email: details.email });
+        if (user) return { user, type: 'login' };
+        const newUser = await this.userRepository.addOne(details);
+        return { user: newUser, type: 'register' };
+    }
+
+    async findUser(user_id: mongoose.Types.ObjectId) {
+        return this.userRepository.findById(user_id);
+    }
+
+    async createToken(user: { email: string; sub: mongoose.Types.ObjectId }): Promise<Tokens> {
+        const accessToken = await this.jwtService.signAsync(user, {
+            secret: process.env.TOKEN_SECRET_AT,
+            expiresIn: 60 * 60 * 2,
+        });
+        const refreshToken = await this.jwtService.signAsync(user, {
+            secret: process.env.TOKEN_SECRET_RT,
+            expiresIn: 60 * 60 * 2,
+        });
+
+        return {
+            accessToken,
+            refreshToken,
+        };
+    }
+
+    async logout(token: string, refreshToken: string) {
+        //expired after 2h
+        await this.cacheManager.set(token, 'true', { ttl: 60 * 60 * 2 });
+        //expired after 3d
+        await this.cacheManager.set(refreshToken, 'true', { ttl: 60 * 60 * 24 * 3 });
+        return true;
+    }
+
+    async refreshToken(id: mongoose.Types.ObjectId) {
+        const user = await this.userRepository.findById(id);
+        if (!user) throw new ForbiddenException('Access denied');
+
+        const tokens = await this.createToken({ email: user.email, sub: user._id });
+        return tokens;
+    }
+
+    async checkToken(token: string) {
+        const value = await this.cacheManager.get(token);
+        return value === 'true';
+    }
+}
