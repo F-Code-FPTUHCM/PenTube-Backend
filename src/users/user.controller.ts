@@ -1,15 +1,15 @@
 import { Controller, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UsersService } from './user.service';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-    constructor(private readonly userService: UsersService) {}
+    constructor(private readonly userService: UserService) {}
 
-    @Get('/:id')
-    // @UseGuards(AuthGuard('jwt'))
+    @Get('only')
+    @UseGuards(AuthGuard('check-token'))
     async getInformationUser(@Req() req) {
-        const user = await this.userService.findUser(req.params.id);
+        const user = await this.userService.findUser(req.user.sub);
         if (user)
             return {
                 code: 200,

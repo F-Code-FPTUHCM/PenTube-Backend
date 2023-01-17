@@ -11,7 +11,6 @@ export class UserRepository {
     ) {}
 
     async findById(id: string): Promise<User> {
-        console.log(await this.userModel.findById(id));
         return this.userModel.findById(id);
     }
 
