@@ -1,6 +1,6 @@
 import { ResponseException } from './../../src/Exception/ResponseException';
 import { ValidationError } from '@nestjs/class-validator';
-import { configYAML } from 'config/config';
+import { configYAML } from '../config';
 
 const exceptionFactory = (validationErrors: ValidationError[] = []) => {
     // use this for return multiple errors
