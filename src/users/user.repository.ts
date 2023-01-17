@@ -10,7 +10,8 @@ export class UserRepository {
         private readonly userModel: Model<User>,
     ) {}
 
-    async findById(id: mongoose.Types.ObjectId): Promise<User> {
+    async findById(id: string): Promise<User> {
+        console.log(await this.userModel.findById(id));
         return this.userModel.findById(id);
     }
 
