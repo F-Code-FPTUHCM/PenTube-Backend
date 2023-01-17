@@ -1,5 +1,5 @@
 import { ConfigModule } from '@nestjs/config';
-import { UserRepository } from './auth.repository';
+import { AuthRepository } from './auth.repository';
 import { CacheModule, Module } from '@nestjs/common';
 import { LoginController } from './auth.controller';
 import { GoogleStrategy } from './utils/GoogleStrategy';
@@ -35,7 +35,7 @@ import configYAML from 'config/config';
     controllers: [LoginController],
     providers: [
         GoogleStrategy,
-        UserRepository,
+        AuthRepository,
         SessionSerializer,
         AuthService,
         AtStrategy,

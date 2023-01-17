@@ -1,4 +1,4 @@
-import { UserRepository } from './auth.repository';
+import { AuthRepository } from './auth.repository';
 import { Injectable, ForbiddenException, Inject, CACHE_MANAGER } from '@nestjs/common';
 import { UserDetails } from './entities/User';
 import { JwtService } from '@nestjs/jwt';
@@ -10,21 +10,21 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly userRepository: UserRepository,
+        private readonly authRepository: AuthRepository,
         private readonly jwtService: JwtService,
         private configService: ConfigService,
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
     ) {}
 
     async validateUser(details: UserDetails) {
-        const user = await this.userRepository.findOne({ email: details.email });
+        const user = await this.authRepository.findOne({ email: details.email });
         if (user) return { user, type: 'login' };
-        const newUser = await this.userRepository.addOne(details);
+        const newUser = await this.authRepository.addOne(details);
         return { user: newUser, type: 'register' };
     }
 
     async findUser(user_id: string) {
-        return this.userRepository.findById(user_id);
+        return this.authRepository.findById(user_id);
     }
 
     async createToken(user: { email: string; sub: string }): Promise<Tokens> {
@@ -52,7 +52,7 @@ export class AuthService {
     }
 
     async refreshToken(id: string) {
-        const user = await this.userRepository.findById(id);
+        const user = await this.authRepository.findById(id);
         if (!user) throw new ForbiddenException('Access denied');
 
         const tokens = await this.createToken({ email: user.email, sub: user._id });
