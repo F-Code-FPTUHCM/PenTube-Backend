@@ -23,11 +23,11 @@ export class AuthService {
         return { user: newUser, type: 'register' };
     }
 
-    async findUser(user_id: mongoose.Types.ObjectId) {
+    async findUser(user_id: string) {
         return this.userRepository.findById(user_id);
     }
 
-    async createToken(user: { email: string; sub: mongoose.Types.ObjectId }): Promise<Tokens> {
+    async createToken(user: { email: string; sub: string }): Promise<Tokens> {
         const accessToken = await this.jwtService.signAsync(user, {
             secret: this.configService.get<string>('token.secret_at'),
             expiresIn: 60 * 60 * 2,
@@ -51,7 +51,7 @@ export class AuthService {
         return true;
     }
 
-    async refreshToken(id: mongoose.Types.ObjectId) {
+    async refreshToken(id: string) {
         const user = await this.userRepository.findById(id);
         if (!user) throw new ForbiddenException('Access denied');
 

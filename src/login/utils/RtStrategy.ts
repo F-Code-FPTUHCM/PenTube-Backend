@@ -3,12 +3,11 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import mongoose from 'mongoose';
 import configYAML from 'config/config';
 
 type JwtPayload = {
     email: string;
-    sub: mongoose.Types.ObjectId;
+    sub: string;
 };
 
 @Injectable()

@@ -1,14 +1,13 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import mongoose from 'mongoose';
 import { Request } from 'express';
 import configYAML from 'config/config';
 import { AuthService } from 'src/login/auth.service';
 
 type JwtPayload = {
     email: string;
-    sub: mongoose.Types.ObjectId;
+    sub: string;
 };
 
 @Injectable()

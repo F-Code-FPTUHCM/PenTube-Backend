@@ -8,7 +8,7 @@ import configYAML from 'config/config';
 
 type JwtPayload = {
     email: string;
-    sub: mongoose.Types.ObjectId;
+    sub: string;
 };
 
 @Injectable()

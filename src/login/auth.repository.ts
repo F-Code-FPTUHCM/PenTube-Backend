@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { User, UserDetails } from './entities/User';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class UserRepository {
         private readonly userModel: Model<User>,
     ) {}
 
-    async findById(id: mongoose.Types.ObjectId): Promise<User> {
+    async findById(id: string): Promise<User> {
         return this.userModel.findById(id);
     }
 
@@ -23,7 +23,7 @@ export class UserRepository {
         return newUser.save();
     }
 
-    async updateById(id: mongoose.Types.ObjectId, value: any) {
+    async updateById(id: string, value: any) {
         try {
             await this.userModel.updateMany({ _id: id }, value);
             return true;
