@@ -26,7 +26,7 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
-            - name: Yarn Setup
+            - name: yarn Setup
               uses: DerYeger/yarn-setup-action@v1.0.1
               with:
                   # The version of Node.js that will be used
@@ -36,7 +36,7 @@ jobs:
             - name: build
               run: yarn build
             - name: test
-              run: CI=true yarn test --passWithNoTests
+              run: CI=true yarn test
 #   deploy:
 #       runs-on: ubuntu-latest
 
