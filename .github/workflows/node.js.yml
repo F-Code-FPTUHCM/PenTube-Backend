@@ -31,6 +31,14 @@ jobs:
               with:
                   # The version of Node.js that will be used
                   node-version: 16.x
+
+            - name: Setup Redis
+              uses: zhulik/redis-action@1.1.0
+              with:
+                  # Version of Redis to use
+                  redis version: latest
+                  # Number of Redis databases
+                  number of databases: 16
             - name: ci
               run: yarn install --frozen-lockfile
             - name: lint
