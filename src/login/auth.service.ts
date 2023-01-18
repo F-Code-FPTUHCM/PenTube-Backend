@@ -1,6 +1,6 @@
 import { AuthRepository } from './auth.repository';
 import { Injectable, ForbiddenException, Inject, CACHE_MANAGER } from '@nestjs/common';
-import { UserDetails } from './entities/User';
+import { UserDetails } from './entities/user';
 import { JwtService } from '@nestjs/jwt';
 import { Tokens } from './entities/token.type';
 import mongoose from 'mongoose';

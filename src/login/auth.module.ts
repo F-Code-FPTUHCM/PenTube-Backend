@@ -5,7 +5,7 @@ import { LoginController } from './auth.controller';
 import { GoogleStrategy } from './utils/GoogleStrategy';
 import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserSchema } from './entities/User';
+import { UserSchema } from './entities/user';
 import { SessionSerializer } from './utils/Serializer';
 import { AtStrategy } from './utils/AtStrategy';
 import { RtStrategy } from './utils/RtStrategy';
