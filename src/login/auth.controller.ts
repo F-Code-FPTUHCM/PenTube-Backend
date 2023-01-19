@@ -1,3 +1,4 @@
+import { GoogleLoginGuard } from './utils/Guards';
 import {
     Controller,
     Get,
@@ -9,7 +10,6 @@ import {
     BadRequestException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GoogleLoginGuard } from 'src/login/utils/Guards';
 import { AuthService } from './auth.service';
 
 @Controller()

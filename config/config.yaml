@@ -1,5 +1,5 @@
 api:
-    version: v0.1
+    version: v1
 http:
     port: 4000
     host: 'localhost'

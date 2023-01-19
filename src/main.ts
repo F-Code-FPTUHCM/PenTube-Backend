@@ -1,6 +1,6 @@
+import { configYAML } from './../config/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { configYAML } from 'config/config';
 import { HttpExceptionFilter } from './Exception/exception.filter';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import validationPipeConfig from 'config/validationPipes/config';

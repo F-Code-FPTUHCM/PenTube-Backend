@@ -1,10 +1,10 @@
+import { configYAML } from './../../../config/config';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import mongoose from 'mongoose';
 import { Request } from 'express';
 import { AuthService } from '../auth.service';
-import configYAML from 'config/config';
 
 type JwtPayload = {
     email: string;
