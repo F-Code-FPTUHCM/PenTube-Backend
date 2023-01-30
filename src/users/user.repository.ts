@@ -23,7 +23,7 @@ export class UserRepository {
         return newUser.save();
     }
 
-    async updateById(id: mongoose.Types.ObjectId, value: any) {
+    async updateById(id: string, value: any) {
         try {
             await this.userModel.updateMany({ _id: id }, value);
             return true;
