@@ -28,6 +28,7 @@ export class UserRepository {
             await this.userModel.updateMany({ _id: id }, value);
             return true;
         } catch (error) {
+            console.log(error);
             return false;
         }
     }

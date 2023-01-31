@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
+import { UpdateHistoriesDto } from './entities/updateHistories.dto';
 
 @Controller('user')
 export class UserController {
@@ -55,13 +56,32 @@ export class UserController {
 
     @Get('histories')
     @UseGuards(AuthGuard('check-token'))
-    async getHistoryUser(@Req() req) {
+    async getHistoriesUser(@Req() req) {
         const histories = await this.userService.getHistoriesUser(req.user.sub);
         if (histories)
             return {
                 code: 200,
                 message: 'Success.',
                 data: histories,
+            };
+        else
+            return {
+                code: 404,
+                message: 'Bad request.',
+                data: null,
+            };
+    }
+
+    @Post('update-histories')
+    @UseGuards(AuthGuard('check-token'))
+    @UsePipes(new ValidationPipe())
+    async updateHistoriesUser(@Body() newHistory: UpdateHistoriesDto) {
+        const status = await this.userService.updateHistoriesUser(newHistory);
+        if (status)
+            return {
+                code: 200,
+                message: 'Success.',
+                data: null,
             };
         else
             return {
