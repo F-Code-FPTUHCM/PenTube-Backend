@@ -1,13 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { configYAML } from 'config/config';
-import { ConfigLogger } from './../config/logger/config';
 import * as session from 'express-session';
 import * as passport from 'passport';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
-        logger: new ConfigLogger(),
+        logger: ['debug', 'error', 'log', 'warn', 'verbose'],
     });
     app.use(
         session({

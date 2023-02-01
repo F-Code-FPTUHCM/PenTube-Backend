@@ -38,8 +38,8 @@ export class UserController {
     @Post('update')
     @UseGuards(AuthGuard('check-token'))
     @UsePipes(new ValidationPipe())
-    async updateInformationUser(@Body() newUser: UpdateUserDto) {
-        const status = await this.userService.updateUser(newUser);
+    async updateInformationUser(@Req() req, @Body() newUser: UpdateUserDto) {
+        const status = await this.userService.updateUser(req.user.sub, newUser);
         if (status)
             return {
                 code: 200,
@@ -75,8 +75,8 @@ export class UserController {
     @Post('update-histories')
     @UseGuards(AuthGuard('check-token'))
     @UsePipes(new ValidationPipe())
-    async updateHistoriesUser(@Body() newHistory: UpdateHistoriesDto) {
-        const status = await this.userService.updateHistoriesUser(newHistory);
+    async updateHistoriesUser(@Req() req, @Body() newHistory: UpdateHistoriesDto) {
+        const status = await this.userService.updateHistoriesUser(req.user.sub, newHistory.videoId);
         if (status)
             return {
                 code: 200,

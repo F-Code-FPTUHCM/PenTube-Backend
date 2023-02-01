@@ -25,7 +25,7 @@ export class UserRepository {
 
     async updateById(id: string, value: any) {
         try {
-            await this.userModel.updateMany({ _id: id }, value);
+            await this.userModel.updateOne({ _id: id }, value);
             return true;
         } catch (error) {
             console.log(error);

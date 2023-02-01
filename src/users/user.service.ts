@@ -1,7 +1,6 @@
 import { UpdateUserDto } from './entities/updateUser.dto';
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
-import { UpdateHistoriesDto } from './entities/updateHistories.dto';
 
 @Injectable()
 export class UserService {
@@ -16,14 +15,14 @@ export class UserService {
         return user.histories;
     }
 
-    async updateUser(newUser: UpdateUserDto) {
-        return this.userRepository.updateById(newUser._id, {
+    async updateUser(id: string, newUser: UpdateUserDto) {
+        return this.userRepository.updateById(id, {
             name: newUser.name,
             avatarUrl: newUser.avatarUrl,
         });
     }
 
-    async updateHistoriesUser({ userId, videoId }: UpdateHistoriesDto) {
+    async updateHistoriesUser(userId: string, videoId: string) {
         const user = await this.userRepository.findById(userId);
         const histories = user.histories;
         let newHistories = [];
