@@ -1,25 +1,25 @@
-import { LoggerService } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 
 // To config message or logger file
-export class ConfigLogger implements LoggerService {
+export class ConfigLogger extends Logger {
     // Logging information
     log(message: any, context?: string) {
-        console.log(message);
+        super.log(message, context);
     }
 
     error(message: any, trace?: string, context?: string) {
-        console.error(message);
+        super.error(message, trace, context);
     }
 
     warn(message: any, context?: string) {
-        console.warn(message);
+        super.warn(message, context);
     }
 
-    debug?(message: any, context?: string) {
-        console.debug(message);
+    debug(message: any, context?: string) {
+        super.debug(message, context);
     }
 
-    verbose?(message: any, context?: string) {
-        console.log(message);
+    verbose(message: any, context?: string) {
+        super.verbose(message, context);
     }
 }

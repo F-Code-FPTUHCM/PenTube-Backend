@@ -1,9 +1,9 @@
+import { configYAML } from './../../../config/config';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
-import configYAML from 'config/config';
 
 type JwtPayload = {
     email: string;
