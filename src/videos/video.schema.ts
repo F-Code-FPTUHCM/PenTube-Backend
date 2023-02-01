@@ -26,8 +26,8 @@ export class Video {
     @Prop({ required: true })
     description: string;
 
-    @Prop()
-    category: string;
+    // @Prop()
+    // category: string;
 
     @Prop([String])
     tags: string[];
@@ -43,6 +43,9 @@ export class Video {
     @Prop({ default: null })
     key: string;
 
+    @Prop()
+    views: View[];
+
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
     likes: User[];
 
@@ -53,10 +56,10 @@ export class Video {
     totalViews: number;
 
     @Prop({ type: mongoose.Schema.Types.Date, default: Date.now(), immutable: true })
-    createdAt: Date;
+    createdAt: string;
 
     @Prop({ type: mongoose.Schema.Types.Date, default: Date.now() })
-    updatedAt: Date;
+    updatedAt: string;
 }
 
 @Schema()
