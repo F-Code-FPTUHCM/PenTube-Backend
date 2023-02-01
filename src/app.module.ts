@@ -6,6 +6,8 @@ import { ProductsModule } from './products/products.module';
 import { AuthModule } from './login/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { SearchController } from './search/search/search.controller';
+import { SearchModule } from './search/search/search.module';
 
 @Module({
     imports: [
@@ -15,9 +17,10 @@ import { PassportModule } from '@nestjs/passport';
         MongooseModule.forRoot(configYAML().db.mongodb.host),
         AuthModule,
         PassportModule.register({ session: true }),
+        SearchModule,
     ],
     // middleware or api here controller
-    controllers: [],
+    controllers: [SearchController],
     providers: [],
 })
 export class AppModule {}
