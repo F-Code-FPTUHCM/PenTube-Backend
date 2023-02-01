@@ -9,6 +9,8 @@ import { GeoIP2Module } from 'nestjs-geoip2';
 import { AuthModule } from './login/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { SearchModule } from './search/search.module';
+import { SearchController } from './search/search.controller';
 
 @Module({
     imports: [
@@ -17,9 +19,12 @@ import { PassportModule } from '@nestjs/passport';
         GeoIP2Module.forRoot(geoIPConfig),
         ConfigModule.forRoot(),
         MongooseModule.forRoot(configYAML().db.mongodb.host),
+        AuthModule,
+        PassportModule.register({ session: true }),
+        SearchModule,
     ],
     // middleware or api here controller
-    controllers: [],
+    controllers: [SearchController],
     providers: [],
 })
 export class AppModule {}
