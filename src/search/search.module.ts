@@ -1,6 +1,8 @@
+import { SearchRepository } from './search.repository';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrieSchema } from './entities/trie.type';
+import { SearchService } from './search.service';
 
 @Module({
     imports: [
@@ -12,6 +14,7 @@ import { TrieSchema } from './entities/trie.type';
         ]),
     ],
     controllers: [],
-    providers: [],
+    providers: [SearchService, SearchRepository],
+    exports: [SearchService, SearchRepository],
 })
 export class SearchModule {}
