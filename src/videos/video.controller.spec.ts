@@ -4,7 +4,6 @@ import { configYAML } from './../../config/config';
 import { UsersSchema } from './../Users/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
-import { VideoDTO } from './video.dto';
 import { ResponseModal } from './../Response/response.modal';
 import { Test } from '@nestjs/testing';
 import { VideoService } from './video.service';
@@ -14,7 +13,7 @@ describe('VideoController', () => {
     let videoController: VideosController;
     let videoService: VideoService;
     beforeEach(async () => {
-        // Test clas has createTestingModule can take a module metadata object as it argument
+        // Test class has createTestingModule can take a module metadata object as it argument
         // (the same as object passed to the @Module decorator)
         // this return a testing module instance
         const moduleRef = await Test.createTestingModule({

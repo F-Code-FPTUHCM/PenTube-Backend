@@ -19,3 +19,6 @@ redis:
     port: 6379
     user: ''
     password: ''
+mail:
+    sendgrid:
+        api_key: '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'

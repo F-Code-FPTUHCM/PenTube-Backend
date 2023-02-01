@@ -1,3 +1,5 @@
+import { ConfigService } from '@nestjs/config';
+import { configYAML } from './../../config/config';
 import { CheckToken } from './../utils/check-token';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from './../login/utils/Role.Decorator';
@@ -35,6 +37,7 @@ export class VideosController {
     @Put('/view')
     @UseGuards(AuthGuard('check-token'))
     async updateView(@Body() viewDTO: ViewDTO, @RealIP() ip: string): Promise<ResponseModal> {
+        const realIp = ip.split(':')[3];
         // TODO: change to real ip when public
         await this.videoService.updateView(viewDTO, DEMO_IP.GB);
         return new ResponseModal(200, 'Success');
