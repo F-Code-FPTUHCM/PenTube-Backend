@@ -19,6 +19,7 @@ import { VideosController } from './video.controller';
         ]),
         AuthModule,
     ],
+    exports: [VideoService],
     controllers: [VideosController],
     providers: [VideoService, CheckToken],
 })

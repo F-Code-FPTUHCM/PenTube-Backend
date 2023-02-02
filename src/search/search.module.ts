@@ -1,8 +1,12 @@
+import { VietnamesConverter } from './../utils/vietnameseConverter';
+import { VideoModule } from './../videos/video.module';
+import { VideoSchema } from './../videos/video.schema';
 import { SearchRepository } from './search.repository';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrieSchema } from './entities/trie.type';
 import { SearchService } from './search.service';
+import { KMP } from './algorithms/kmp';
 
 @Module({
     imports: [
@@ -11,10 +15,15 @@ import { SearchService } from './search.service';
                 name: 'TrieSearch',
                 schema: TrieSchema,
             },
+            {
+                name: 'Videos',
+                schema: VideoSchema,
+            },
         ]),
+        VideoModule,
     ],
     controllers: [],
-    providers: [SearchService, SearchRepository],
+    providers: [SearchService, SearchRepository, KMP, VietnamesConverter],
     exports: [SearchService, SearchRepository],
 })
 export class SearchModule {}

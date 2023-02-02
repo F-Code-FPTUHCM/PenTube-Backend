@@ -15,7 +15,7 @@ const CityRaw = {
     },
 };
 
-@Schema()
+@Schema({ id: true })
 export class Video {
     @Prop({ required: true })
     title: string;

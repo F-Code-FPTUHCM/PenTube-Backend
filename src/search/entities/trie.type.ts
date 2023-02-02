@@ -1,3 +1,5 @@
+import { VideoDTO } from './../../videos/video.dto';
+import { Video } from './../../videos/video.schema';
 import { Schema, Document } from 'mongoose';
 
 export type TrieDetails = {
@@ -50,3 +52,11 @@ export interface Trie extends Document {
         },
     ];
 }
+
+// Video result type
+export interface ResultVideo extends VideoDTO {
+    score: number;
+}
+
+export type Result = Array<ResultVideo>;
+export type Videos = Array<Video>;

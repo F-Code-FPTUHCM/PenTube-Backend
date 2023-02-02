@@ -6,6 +6,7 @@ import { IsBoolean, IsOptional } from 'class-validator';
 export class VideoDTO {
     @IsOptional()
     id: string;
+
     @IsNotEmpty({})
     title: string;
 
