@@ -15,7 +15,7 @@ package-log.json
 # OS
 .DS_Store
 # .env
-*/config.yaml
+config.yaml
 .env
 .env.local
 .env.development.local
