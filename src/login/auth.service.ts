@@ -3,7 +3,6 @@ import { Injectable, ForbiddenException, Inject, CACHE_MANAGER } from '@nestjs/c
 import { UserDetails } from './entities/User';
 import { JwtService } from '@nestjs/jwt';
 import { Tokens } from './entities/token.type';
-import mongoose from 'mongoose';
 import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 

@@ -41,6 +41,6 @@ import * as redisStore from 'cache-manager-redis-store';
         AtStrategy,
         RtStrategy,
     ],
-    exports: [UserRepository, SessionSerializer, AuthService],
+    exports: [AuthRepository, SessionSerializer, AuthService],
 })
 export class AuthModule {}
