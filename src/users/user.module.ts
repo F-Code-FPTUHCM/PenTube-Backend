@@ -1,4 +1,3 @@
-import { UserSchema } from './entities/user';
 import { Module, CacheModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserController } from './user.controller';
@@ -11,13 +10,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import * as redisStore from 'cache-manager-redis-store';
 import configYAML from 'config/config';
+import { UsersSchema } from './entities/user.schema';
 
 @Module({
     imports: [
         MongooseModule.forFeature([
             {
                 name: 'User',
-                schema: UserSchema,
+                schema: UsersSchema,
             },
         ]),
         ConfigModule,

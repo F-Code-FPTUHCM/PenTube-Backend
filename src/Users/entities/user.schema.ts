@@ -1,10 +1,17 @@
 import { Schema, Prop, raw, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Date, ObjectId, HydratedDocument } from 'mongoose';
+import mongoose, { Date, ObjectId, HydratedDocument, Document } from 'mongoose';
 
 export interface History {
-    videos: ObjectId;
+    videoId: ObjectId;
     lastVisitedAt: Date;
 }
+
+export type UserDetails = {
+    name: string;
+    email: string;
+    avatarUrl?: string;
+    histories?: History[];
+};
 
 export type UserDocument = HydratedDocument<User>;
 @Schema()
@@ -23,11 +30,41 @@ export class User {
 
     @Prop([
         raw({
-            video: { type: mongoose.Schema.Types.ObjectId, ref: 'Videos' },
+            videoId: { type: mongoose.Schema.Types.ObjectId, ref: 'Videos' },
             lastVisitedAt: { type: mongoose.Schema.Types.Date, default: Date.now() },
         }),
     ])
-    histories: History;
+    histories: History[];
 }
 
 export const UsersSchema = SchemaFactory.createForClass(User);
+
+// export const UserSchema = new Schema(
+//     {
+//         name: String,
+//         email: String,
+//         avatarUrl: String,
+//         histories: [
+//             {
+//                 videoId: Schema.Types.ObjectId,
+//                 lastVisitedAt: Date,
+//             },
+//         ],
+//     },
+//     {
+//         timestamps: true,
+//         collection: 'users',
+//     },
+// );
+
+// export interface UserDocumentV2 extends Document {
+//     name: string;
+//     email: string;
+//     avatarUrl: string;
+//     histories: [
+//         {
+//             videoId: mongoose.Schema.Types.ObjectId;
+//             lastVisitedAt: Date;
+//         },
+//     ];
+// }

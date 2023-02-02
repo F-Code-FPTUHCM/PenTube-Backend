@@ -23,7 +23,6 @@ export class CheckToken extends PassportStrategy(Strategy, 'check-token') {
 
     async validate(req: Request, payload: JwtPayload) {
         try {
-            console.log(req);
             const token = req.get('authorization').replace('Bearer', '').trim();
             const statusToken = await this.authService.checkToken(token);
             if (statusToken) throw new ForbiddenException('Access denied. Please re-login.');

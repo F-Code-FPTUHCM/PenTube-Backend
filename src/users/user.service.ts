@@ -29,7 +29,7 @@ export class UserService {
         let ok = true;
         if (histories.length > 0)
             newHistories = histories.map(history => {
-                if (history.videoId.toString() === videoId) {
+                if (history.videoId && history.videoId.toString() === videoId) {
                     ok = false;
                     return {
                         videoId,
