@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './Exception/exception.filter';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import validationPipeConfig from 'config/validationPipes/config';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
 import { ConfigLogger } from './../config/logger/config';
 
 import * as session from 'express-session';
@@ -21,7 +21,11 @@ async function bootstrap() {
         .setVersion('1.0')
         .addTag('cats')
         .build();
-    const document = SwaggerModule.createDocument(app, config);
+    const options: SwaggerDocumentOptions = {
+        operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
+    };
+
+    const document = SwaggerModule.createDocument(app, config, options);
     SwaggerModule.setup('api', app, document);
 
     app.useGlobalFilters(new HttpExceptionFilter(new Logger()));
