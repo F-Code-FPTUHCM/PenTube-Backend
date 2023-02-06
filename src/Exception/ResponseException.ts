@@ -6,6 +6,7 @@ export class ResponseException extends HttpException {
             {
                 status: status,
                 message,
+                statusMessage: message,
             },
             status,
         );

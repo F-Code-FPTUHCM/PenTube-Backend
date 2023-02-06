@@ -1,6 +1,6 @@
 import { configYAML } from './../../config/config';
 import { ConfigModule } from '@nestjs/config';
-import { UserRepository } from './auth.repository';
+import { AuthRepository } from './auth.repository';
 import { CacheModule, Module } from '@nestjs/common';
 import { LoginController } from './auth.controller';
 import { GoogleStrategy } from './utils/GoogleStrategy';
@@ -35,12 +35,12 @@ import * as redisStore from 'cache-manager-redis-store';
     controllers: [LoginController],
     providers: [
         GoogleStrategy,
-        UserRepository,
+        AuthRepository,
         SessionSerializer,
         AuthService,
         AtStrategy,
         RtStrategy,
     ],
-    exports: [UserRepository, SessionSerializer, AuthService],
+    exports: [AuthRepository, SessionSerializer, AuthService],
 })
 export class AuthModule {}

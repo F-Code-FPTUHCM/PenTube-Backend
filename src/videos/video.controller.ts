@@ -28,14 +28,14 @@ export class VideosController {
         return new ResponseModal<Video>(200, 'Success', result);
     }
     @Post()
-    @UseGuards(AuthGuard('check-token'))
+    // @UseGuards(AuthGuard('check-token'))
     async upsert(@Body() video: VideoDTO): Promise<ResponseModal> {
-        await this.videoService.upsertVideo(video);
+        // await this.videoService.upsertVideo(video);
         return new ResponseModal(200, 'Success');
     }
 
     @Put('/view')
-    @UseGuards(AuthGuard('check-token'))
+    // @UseGuards(AuthGuard('check-token'))
     async updateView(@Body() viewDTO: ViewDTO, @RealIP() ip: string): Promise<ResponseModal> {
         const realIp = ip.split(':')[3];
         // TODO: change to real ip when public

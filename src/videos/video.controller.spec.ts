@@ -1,7 +1,7 @@
 import { geoIPConfig } from './../../config/geoIP/config';
 import { GeoIP2Module } from 'nestjs-geoip2';
 import { configYAML } from './../../config/config';
-import { UsersSchema } from './../Users/user.schema';
+import { UsersSchema } from '../users/entities/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
 import { ResponseModal } from './../Response/response.modal';

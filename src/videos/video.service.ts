@@ -1,11 +1,10 @@
-import { UserDocument } from './../Users/user.schema';
-import { UserDTO } from './../Users/user.dto';
+import { UserDocument } from '../users/entities/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId, Query } from 'mongoose';
 import { LocationDocument, Video, VideoDocument, ViewDocument } from './video.schema';
 import { VideoDTO, ViewDTO, LocationDTO } from './video.dto';
-import { ResponseException } from './../Exception/ResponseException';
+// import { ResponseException } from './../Exception/ResponseException';
 import { InjectGeoIP2 } from 'nestjs-geoip2';
 import { ReaderModel } from '@maxmind/geoip2-node';
 import { stringify } from 'querystring';
@@ -34,7 +33,7 @@ export class VideoService {
 
     async updateVideo(video: VideoDTO): Promise<any> {
         if (!video.id.match(/^[0-9a-fA-F]{24}$/)) {
-            throw new ResponseException(400, 'Invalid Id');
+            // throw new ResponseException(400, 'Invalid Id');
         }
         return await this.videoModel.findByIdAndUpdate(video.id, video).exec();
     }
@@ -43,7 +42,7 @@ export class VideoService {
         if (video.id) {
             const result = await this.updateVideo(video);
             if (!result) {
-                throw new ResponseException(404, 'Not found Id');
+                // throw new ResponseException(404, 'Not found Id');
             }
             return result;
         }
@@ -54,7 +53,7 @@ export class VideoService {
         const city = this.geoIPReaderModal.city(ip);
 
         if (!city) {
-            throw new ResponseException(404, 'Not found City');
+            // throw new ResponseException(404, 'Not found City');
         }
         const locationDTO = new LocationDTO(city);
         let currentLocation = await locations.find(l => l.code === locationDTO.code);
@@ -95,10 +94,10 @@ export class VideoService {
 
         // check if exists
         if (!user) {
-            throw new ResponseException(404, 'User not found');
+            // throw new ResponseException(404, 'User not found');
         }
         if (!video) {
-            throw new ResponseException(404, 'Video not found');
+            // throw new ResponseException(404, 'Video not found');
         }
 
         // create new view if the person not viewed the video yet
