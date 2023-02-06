@@ -8,6 +8,7 @@ import { VideoDTO, ViewDTO, LocationDTO } from './video.dto';
 import { InjectGeoIP2 } from 'nestjs-geoip2';
 import { ReaderModel } from '@maxmind/geoip2-node';
 import { stringify } from 'querystring';
+import { ResponseException } from 'src/Exception/ResponseException';
 @Injectable()
 export class VideoService {
     constructor(
@@ -124,6 +125,19 @@ export class VideoService {
 
         //save to database
         await newView.save();
+        return await video.save();
+    }
+    async updateLike(videoId: string, userId: string) {
+        console.log(videoId, userId);
+        const video = await this.videoModel.findById(videoId);
+        const user = await this.userModel.findById(userId);
+        if (!video) {
+            throw new ResponseException(404, 'Video not found');
+        }
+        if (!user) {
+            throw new ResponseException(404, 'User not found');
+        }
+        video.likes.push(user.id);
         return await video.save();
     }
 }

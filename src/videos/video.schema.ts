@@ -44,7 +44,7 @@ export class Video {
     key: string;
 
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
-    likes: User[];
+    likes: string[];
 
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
     dislikes: User[];
