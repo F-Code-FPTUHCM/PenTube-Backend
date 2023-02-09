@@ -1,4 +1,4 @@
-import { VietnamesConverter } from './../utils/vietnameseConverter';
+import { VietnameseConverter } from './../utils/vietnameseConverter';
 import { VideoModule } from './../videos/video.module';
 import { VideoSchema } from './../videos/video.schema';
 import { SearchRepository } from './search.repository';
@@ -23,7 +23,7 @@ import { KMP } from './algorithms/kmp';
         VideoModule,
     ],
     controllers: [],
-    providers: [SearchService, SearchRepository, KMP, VietnamesConverter],
+    providers: [SearchService, SearchRepository, KMP, VietnameseConverter],
     exports: [SearchService, SearchRepository],
 })
 export class SearchModule {}

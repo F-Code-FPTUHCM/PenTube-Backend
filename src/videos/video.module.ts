@@ -1,8 +1,6 @@
-import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './../login/auth.module';
 import { CheckToken } from './../utils/check-token';
-import { AuthService } from './../login/auth.service';
-import { UsersSchema } from './../Users/user.schema';
+import { UsersSchema } from '../users/entities/user.schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
