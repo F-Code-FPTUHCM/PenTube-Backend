@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class VietnamesConverter {
+export class VietnameseConverter {
     // This function converts the string to lowercase, then perform the conversion
     toLowerCaseNonAccent(str) {
         str = str.toLowerCase();

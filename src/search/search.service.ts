@@ -1,5 +1,5 @@
 import { VideoDTO } from './../videos/video.dto';
-import { VietnamesConverter } from './../utils/vietnameseConverter';
+import { VietnameseConverter } from './../utils/vietnameseConverter';
 import { KMP } from './algorithms/kmp';
 import { VideoDocument } from './../videos/video.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,10 +15,10 @@ export class SearchService {
         private readonly searchRepository: SearchRepository,
         @InjectModel('Videos') private readonly videoModel: Model<VideoDocument>,
         private readonly kmp: KMP,
-        private readonly vietnameseConverter: VietnamesConverter,
+        private readonly vietnameseConverter: VietnameseConverter,
     ) {
         kmp = new KMP();
-        vietnameseConverter = new VietnamesConverter();
+        vietnameseConverter = new VietnameseConverter();
     }
 
     async findVideo(content: string) {
@@ -32,7 +32,15 @@ export class SearchService {
         return [];
     }
 
-    async buildTrieByWord(word: string, videoId: string) {
+    async buildTrieByWord(id: string, videoId: string, parentId: string, word: string) {
+        // root of trie has parentId = 'root'
+        if (parentId == 'root') {
+            const root = await this.searchRepository.getRoot();
+            this.searchRepository.addVideoById(root._id, videoId);
+            console.log(root._id);
+        } else {
+            //
+        }
         return true;
     }
 
