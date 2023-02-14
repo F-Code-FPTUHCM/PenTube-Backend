@@ -56,7 +56,7 @@ export class SearchService {
             const convertedTitle = this.vietnameseConverter.toLowerCaseNonAccent(video.title);
             const convertedWord = this.vietnameseConverter.toLowerCaseNonAccent(word);
             const score = this.kmp.process(convertedWord, convertedTitle);
-            const videoDTO = plainToClass(VideoDTO, video.toObject());
+            const videoDTO = plainToClass(VideoDTO, video);
             return { ...videoDTO, score };
         });
         return result;

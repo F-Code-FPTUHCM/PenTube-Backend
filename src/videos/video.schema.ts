@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
 import { User } from 'src/users/entities/user.schema';
 
@@ -17,6 +18,7 @@ const CityRaw = {
 
 @Schema({ id: true })
 export class Video {
+    @ApiProperty()
     @Prop({ required: true })
     title: string;
 
