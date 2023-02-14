@@ -32,15 +32,21 @@ export class SearchService {
         return [];
     }
 
-    async buildTrieByWord(id: string, videoId: string, parentId: string, word: string) {
-        // root of trie has parentId = 'root'
-        if (parentId == 'root') {
+    async buildTrieByWord(id: string, videoId: string, word: string, height: number) {
+        let currentId = null;
+        // root of trie has height = 0
+        if (height === 0) {
             const root = await this.searchRepository.getRoot();
-            this.searchRepository.addVideoById(root._id, videoId);
-            console.log(root._id);
+            currentId = root._id;
         } else {
-            //
+            currentId = id;
         }
+        this.searchRepository.addVideoById(currentId, videoId);
+        let child = await this.searchRepository.getTrieByChar(word.substring(0, height + 1));
+        if (child === null) {
+            child = await this.searchRepository.createTrie(word.substring(0, height + 1));
+        }
+        this.buildTrieByWord(child._id, videoId, word, height + 1);
         return true;
     }
 

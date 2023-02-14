@@ -9,7 +9,7 @@ export class SearchController {
     @Get()
     async searchVideo(@Query('content') content: string) {
         const result = await this.searchService.findVideo(content);
-        this.searchService.buildTrieByWord('', '63e47000ec74d155d9f84459', 'root', content);
+        this.searchService.buildTrieByWord('', '63e47000ec74d155d9f84460', content, 0);
         return new ResponseModal(200, 'success', result);
     }
 }
