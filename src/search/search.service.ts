@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SearchRepository } from './search.repository';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { ResultVideo } from './entities/trie.type';
+import { ResultVideo, Videos } from './entities/trie.type';
 import { plainToClass } from 'class-transformer';
 
 @Injectable()
@@ -23,13 +23,42 @@ export class SearchService {
 
     async findVideo(content: string) {
         // TODO: this return just for demo kmp, change this when complete the whole service
-        const rankedVideos = await this.KMPAlgorithms(content);
-        console.log(rankedVideos);
-        return rankedVideos;
+        // const rankedVideos = await this.KMPAlgorithms(content);
+        // console.log(rankedVideos);
+        // return rankedVideos;
+
+        // Binh
+        const listWord: string[] = content.split(/[^a-zA-Z]/);
+        let result: ResultVideo[] = [];
+        for (let i = 0; i < listWord.length; i++) {
+            if (listWord[i] && listWord[i] !== '') {
+                const temp: ResultVideo[] = await this.KMPAlgorithms(listWord[i]);
+                for (let j = 0; j < temp.length; j++) {
+                    let ok = true;
+                    result = result.map(res => {
+                        if (res.url === temp[j].url) {
+                            ok = false;
+                            return { ...temp[j], score: res.score + temp[j].score };
+                        }
+                        return res;
+                    });
+                    if (ok) result.push(temp[j]);
+                }
+            }
+        }
+        console.log(result);
     }
 
-    async findVideoByWord(word: string) {
-        return [];
+    async findVideoByWord(word: string): Promise<Videos> {
+        let newWord = word;
+        let trie = await this.searchRepository.getTrieByChar(word);
+        let videoList = trie ? trie.videoList : [];
+        while (newWord !== '' && videoList.length < 1) {
+            newWord = newWord.substring(0, newWord.length - 2);
+            trie = await this.searchRepository.getTrieByChar(newWord);
+            videoList = trie ? trie.videoList : [];
+        }
+        return videoList;
     }
 
     async buildTrieByWord(id: string, videoId: string, word: string, height: number) {
@@ -51,10 +80,10 @@ export class SearchService {
     }
 
     async KMPAlgorithms(word: string): Promise<Array<ResultVideo>> {
-        const videos = await this.videoModel.find().exec();
+        const videos: Videos = await this.findVideoByWord(word);
         const result: Array<ResultVideo> = videos.map(video => {
-            const convertedTitle = this.vietnameseConverter.toLowerCaseNonAccent(video.title);
-            const convertedWord = this.vietnameseConverter.toLowerCaseNonAccent(word);
+            const convertedTitle = this.vietnameseConverter.toNonAccent(video.title);
+            const convertedWord = this.vietnameseConverter.toNonAccent(word);
             const score = this.kmp.process(convertedWord, convertedTitle);
             const videoDTO = plainToClass(VideoDTO, video);
             return { ...videoDTO, score };
