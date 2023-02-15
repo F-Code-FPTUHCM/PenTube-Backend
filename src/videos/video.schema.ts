@@ -41,6 +41,9 @@ export class Video {
     status: string;
 
     @Prop({ default: null })
+    thumbnail: string;
+
+    @Prop({ default: null })
     key: string;
 
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })

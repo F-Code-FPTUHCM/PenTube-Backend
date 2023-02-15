@@ -12,6 +12,8 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         logger: ['debug', 'error', 'log', 'verbose', 'warn'],
     });
+    // cors
+    app.enableCors();
     app.useGlobalFilters(new HttpExceptionFilter(new Logger()));
     app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
     // TODO: uncomment this when changing to production
