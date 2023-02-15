@@ -1,3 +1,4 @@
+import { configYAML } from './../../config/config';
 import { ConfigModule } from '@nestjs/config';
 import { AuthRepository } from './auth.repository';
 import { CacheModule, Module } from '@nestjs/common';
@@ -11,7 +12,6 @@ import { AtStrategy } from './utils/AtStrategy';
 import { RtStrategy } from './utils/RtStrategy';
 import { JwtModule } from '@nestjs/jwt';
 import * as redisStore from 'cache-manager-redis-store';
-import configYAML from 'config/config';
 
 @Module({
     imports: [
@@ -41,5 +41,6 @@ import configYAML from 'config/config';
         AtStrategy,
         RtStrategy,
     ],
+    exports: [AuthRepository, SessionSerializer, AuthService],
 })
 export class AuthModule {}

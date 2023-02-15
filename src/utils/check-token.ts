@@ -1,8 +1,8 @@
+import { configYAML } from './../../config/config';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import configYAML from 'config/config';
 import { AuthService } from 'src/login/auth.service';
 
 type JwtPayload = {
@@ -25,14 +25,14 @@ export class CheckToken extends PassportStrategy(Strategy, 'check-token') {
         try {
             const token = req.get('authorization').replace('Bearer', '').trim();
             const statusToken = await this.authService.checkToken(token);
-            if (statusToken) throw new ForbiddenException('Access denied');
+            if (statusToken) throw new ForbiddenException('Access denied. Please re-login.');
             else
                 return {
                     ...payload,
                     token,
                 };
         } catch (error) {
-            throw new ForbiddenException('Access denied');
+            throw new ForbiddenException('Access denied. Please re-login.');
         }
     }
 }
