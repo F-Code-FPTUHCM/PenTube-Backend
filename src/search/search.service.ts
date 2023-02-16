@@ -54,6 +54,15 @@ export class SearchService {
         return videoList;
     }
 
+    async buildTrieByTitle(title: string, videoId: string): Promise<boolean> {
+        const listWord: string[] = title.split(/[^a-zA-Z]/);
+        for (let i = 0; i < listWord.length; i++)
+            if (listWord[i] && listWord[i] !== '') {
+                this.buildTrieByWord('', videoId, listWord[i], 0);
+            }
+        return true;
+    }
+
     // build trie by title of video
     async buildTrieByWord(
         id: string,
