@@ -46,7 +46,7 @@ export class SearchService {
         let newWord = word;
         let trie = await this.searchRepository.getTrieByChar(word);
         let videoList = trie ? trie.videoList : [];
-        while (newWord !== '' && videoList.length < 1) {
+        while (newWord !== '' && videoList.length < 10) {
             newWord = newWord.substring(0, newWord.length - 2);
             trie = await this.searchRepository.getTrieByChar(newWord);
             videoList = trie ? trie.videoList : [];
