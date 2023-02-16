@@ -29,7 +29,7 @@ export class VideosController {
         return new ResponseModal<Video>(200, 'Success', result);
     }
     @Post()
-    // @UseGuardz   s(AuthGuard('check-token'))
+    // @UseGuards(AuthGuard('check-token'))
     async upsert(@Body() video: VideoDTO): Promise<ResponseModal> {
         await this.videoService.upsertVideo(video);
         return new ResponseModal(200, 'Success');

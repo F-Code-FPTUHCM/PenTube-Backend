@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './Exception/exception.filter';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import validationPipeConfig from 'config/validationPipes/config';
+import validationPipeConfig from './../config/validationPipes/config';
 import { SwaggerModule, DocumentBuilder, SwaggerDocumentOptions } from '@nestjs/swagger';
 import { ConfigLogger } from './../config/logger/config';
 

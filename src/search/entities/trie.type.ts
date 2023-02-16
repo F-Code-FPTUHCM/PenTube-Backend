@@ -4,7 +4,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export type TrieDetails = {
     char: string;
-    videos: [
+    videoList: [
         {
             videoId: mongoose.Types.ObjectId;
         },
@@ -14,9 +14,10 @@ export type TrieDetails = {
 export const TrieSchema = new Schema(
     {
         char: String,
-        videos: [
+        videoList: [
             {
-                videoId: mongoose.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Videos',
             },
         ],
     },
@@ -28,11 +29,7 @@ export const TrieSchema = new Schema(
 
 export interface Trie extends Document {
     char: string;
-    videos: [
-        {
-            videoId: mongoose.Types.ObjectId;
-        },
-    ];
+    videoList: mongoose.Types.ObjectId[];
 }
 
 // Video result type

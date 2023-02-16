@@ -20,15 +20,15 @@ export class SearchRepository {
 
     async addVideoById(_id: string, videoId: string) {
         const id = new mongoose.Types.ObjectId(videoId);
-        const videos = await this.trieModel.findOne({ _id }).then(result => result.videos);
+        const Trie = await this.trieModel.findOne({ _id });
         let ok = true;
-        videos.map(vid => (vid.videoId.toString() === id.toString() ? (ok = false) : 0));
-        if (ok) await videos.push({ videoId: id });
-        await this.trieModel.updateMany({ _id }, { videos });
+        Trie.videoList.map(vid => (vid.toString() === id.toString() ? (ok = false) : 0));
+        if (ok) await Trie.videoList.push(id);
+        await Trie.save();
     }
 
     async getTrieByChar(char: string): Promise<Trie> {
-        return await this.trieModel.findOne({ char });
+        return await this.trieModel.findOne({ char }).populate('videoList');
     }
 
     async createTrie(char: string): Promise<Trie> {
