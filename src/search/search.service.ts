@@ -39,7 +39,6 @@ export class SearchService {
                 }
             }
         }
-        console.log(result);
         return result;
     }
 
@@ -47,7 +46,6 @@ export class SearchService {
         let newWord = word;
         let trie = await this.searchRepository.getTrieByChar(word);
         let videoList = trie ? trie.videoList : [];
-        //TODO: change 1 to 10 after test because don't have enough video
         while (newWord !== '' && videoList.length < 1) {
             newWord = newWord.substring(0, newWord.length - 2);
             trie = await this.searchRepository.getTrieByChar(newWord);
@@ -64,6 +62,7 @@ export class SearchService {
         height: number,
     ): Promise<boolean> {
         let currentId = null;
+        if (height > word.length) return true;
         // root of trie has height = 0
         if (height === 0) {
             const root = await this.searchRepository.getRoot();

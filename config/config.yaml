@@ -5,7 +5,7 @@ http:
     host: 'localhost'
 db:
     mongodb:
-        host: 'mongodb://0.0.0.0:27017/YoutubeClone'
+        host: 'mongodb://0.0.0.0:27017/Youtube-Clone'
 google:
     client_id: '696128677582-6rk64gpf4bf2inlquviv5au3e154ee0m.apps.googleusercontent.com'
     client_secret: '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'
