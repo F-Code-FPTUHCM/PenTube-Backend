@@ -1,4 +1,3 @@
-import { VideoDTO } from './../videos/video.dto';
 import { VietnameseConverter } from './../utils/vietnameseConverter';
 import { KMP } from './algorithms/kmp';
 import { VideoDocument } from './../videos/video.schema';
@@ -6,8 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { SearchRepository } from './search.repository';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { ResultVideo, Videos } from './entities/trie.type';
+import { ResultVideo, Trie, TrieDetails, Videos } from './entities/trie.type';
 import { plainToClass } from 'class-transformer';
+import { VideoDTO } from 'src/videos/video.dto';
 
 @Injectable()
 export class SearchService {
@@ -22,12 +22,6 @@ export class SearchService {
     }
 
     async findVideo(content: string) {
-        // TODO: this return just for demo kmp, change this when complete the whole service
-        // const rankedVideos = await this.KMPAlgorithms(content);
-        // console.log(rankedVideos);
-        // return rankedVideos;
-
-        // Binh
         const listWord: string[] = content.split(/[^a-zA-Z]/);
         let result: ResultVideo[] = [];
         for (let i = 0; i < listWord.length; i++) {
@@ -47,12 +41,14 @@ export class SearchService {
             }
         }
         console.log(result);
+        return result;
     }
 
     async findVideoByWord(word: string): Promise<Videos> {
         let newWord = word;
         let trie = await this.searchRepository.getTrieByChar(word);
         let videoList = trie ? trie.videoList : [];
+        //TODO: change 1 to 10 after test because don't have enough video
         while (newWord !== '' && videoList.length < 1) {
             newWord = newWord.substring(0, newWord.length - 2);
             trie = await this.searchRepository.getTrieByChar(newWord);
@@ -71,7 +67,9 @@ export class SearchService {
             currentId = id;
         }
         this.searchRepository.addVideoById(currentId, videoId);
-        let child = await this.searchRepository.getTrieByChar(word.substring(0, height + 1));
+        let child: Trie | TrieDetails = await this.searchRepository.getTrieByChar(
+            word.substring(0, height + 1),
+        );
         if (child === null) {
             child = await this.searchRepository.createTrie(word.substring(0, height + 1));
         }
@@ -88,6 +86,7 @@ export class SearchService {
             const videoDTO = plainToClass(VideoDTO, video);
             return { ...videoDTO, score };
         });
+        console.log('kmp', result);
         return result;
     }
 }

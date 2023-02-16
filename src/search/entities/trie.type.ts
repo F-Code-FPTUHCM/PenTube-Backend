@@ -3,12 +3,9 @@ import { Video } from './../../videos/video.schema';
 import mongoose, { Schema, Document } from 'mongoose';
 
 export type TrieDetails = {
+    _id: string;
     char: string;
-    videoList: [
-        {
-            videoId: mongoose.Types.ObjectId;
-        },
-    ];
+    videoList: Videos;
 };
 
 export const TrieSchema = new Schema(
