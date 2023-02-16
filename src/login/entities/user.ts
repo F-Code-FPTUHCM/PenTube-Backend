@@ -25,6 +25,7 @@ export const UserSchema = new Schema(
         ],
     },
     {
+        id: true,
         timestamps: true,
         collection: 'users',
     },

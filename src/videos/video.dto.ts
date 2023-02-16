@@ -1,7 +1,7 @@
 import { City } from './video.schema';
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
-import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -47,6 +47,10 @@ export class VideoDTO {
     dislikes: string[];
 
     @ApiProperty()
+    @IsOptional()
+    @IsString({ message: invalidateMessage.invalid })
+    thumbnail: string;
+
     @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })

@@ -1,3 +1,5 @@
+import { SearchService } from 'src/search/search.service';
+import { SearchModule } from './../search/search.module';
 import { AuthModule } from './../login/auth.module';
 import { CheckToken } from './../utils/check-token';
 import { UsersSchema } from '../users/entities/user.schema';
@@ -16,6 +18,7 @@ import { VideosController } from './video.controller';
             { name: 'Locations', schema: LocationSchema },
         ]),
         AuthModule,
+        SearchModule,
     ],
     exports: [VideoService],
     controllers: [VideosController],

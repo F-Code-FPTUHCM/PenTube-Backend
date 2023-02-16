@@ -24,6 +24,7 @@ async function bootstrap() {
     const options: SwaggerDocumentOptions = {
         operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
     };
+    app.enableCors();
 
     const document = SwaggerModule.createDocument(app, config, options);
     SwaggerModule.setup('api', app, document);

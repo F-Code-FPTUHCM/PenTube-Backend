@@ -21,6 +21,7 @@ export class SearchService {
         vietnameseConverter = new VietnameseConverter();
     }
 
+    // find video by function
     async findVideo(content: string) {
         // TODO: this return just for demo kmp, change this when complete the whole service
         const rankedVideos = await this.KMPAlgorithms(content);
@@ -28,11 +29,18 @@ export class SearchService {
         return rankedVideos;
     }
 
+    // find video using with every single word
     async findVideoByWord(word: string) {
         return [];
     }
 
-    async buildTrieByWord(id: string, videoId: string, word: string, height: number) {
+    // build trie by title of video
+    async buildTrieByWord(
+        id: string,
+        videoId: string,
+        word: string,
+        height: number,
+    ): Promise<boolean> {
         let currentId = null;
         // root of trie has height = 0
         if (height === 0) {
@@ -50,6 +58,7 @@ export class SearchService {
         return true;
     }
 
+    // using KMP algorithm to find the most relevant video by one word in the query
     async KMPAlgorithms(word: string): Promise<Array<ResultVideo>> {
         const videos = await this.videoModel.find().exec();
         const result: Array<ResultVideo> = videos.map(video => {
