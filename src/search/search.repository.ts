@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Trie } from './entities/trie.type';
+import { Trie, TrieDetails } from './entities/trie.type';
 
 @Injectable()
 export class SearchRepository {
@@ -27,7 +27,7 @@ export class SearchRepository {
         await Trie.save();
     }
 
-    async getTrieByChar(char: string): Promise<Trie> {
+    async getTrieByChar(char: string): Promise<TrieDetails> {
         return await this.trieModel.findOne({ char }).populate('videoList');
     }
 
