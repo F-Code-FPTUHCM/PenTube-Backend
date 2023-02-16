@@ -30,7 +30,7 @@ export interface Trie extends Document {
 }
 
 // Video result type
-export interface ResultVideo extends VideoDTO {
+export class ResultVideo extends Video {
     score: number;
 }
 

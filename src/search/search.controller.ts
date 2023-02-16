@@ -8,9 +8,9 @@ export class SearchController {
 
     @Get()
     async searchVideo(@Query('content') content: string) {
-        const result = await this.searchService.findVideo(content);
-        this.searchService.buildTrieByWord('', '63eb6a231f20699200aff0c8', content, 0);
-        // this.searchService.findVideo(content);
-        return new ResponseModal(200, 'success', result);
+        // const result = await this.searchService.findVideo(content);
+        // this.searchService.buildTrieByWord('', '63edd5e193cc1ee69ec78e56', content, 0);
+        await this.searchService.findVideo(content);
+        return new ResponseModal(200, 'success');
     }
 }

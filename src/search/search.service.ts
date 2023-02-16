@@ -6,8 +6,6 @@ import { SearchRepository } from './search.repository';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { ResultVideo, Trie, TrieDetails, Videos } from './entities/trie.type';
-import { plainToClass } from 'class-transformer';
-import { VideoDTO } from 'src/videos/video.dto';
 
 @Injectable()
 export class SearchService {
@@ -91,10 +89,9 @@ export class SearchService {
             const convertedTitle = this.vietnameseConverter.toNonAccent(video.title);
             const convertedWord = this.vietnameseConverter.toNonAccent(word);
             const score = this.kmp.process(convertedWord, convertedTitle);
-            const videoDTO = plainToClass(VideoDTO, video);
-            return { ...videoDTO, score };
+            const newVideo = this.videoModel.castObject(video);
+            return { ...newVideo, score };
         });
-        console.log('kmp', result);
         return result;
     }
 }
