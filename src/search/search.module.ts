@@ -7,7 +7,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrieSchema } from './entities/trie.type';
 import { SearchService } from './search.service';
-import { KMP } from './algorithms/kmp';
+import { KMP } from './algorithms/KMP';
 import { forwardRef } from '@nestjs/common/utils';
 
 @Module({

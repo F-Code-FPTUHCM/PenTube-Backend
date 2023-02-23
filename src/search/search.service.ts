@@ -1,5 +1,5 @@
 import { VietnameseConverter } from './../utils/vietnameseConverter';
-import { KMP } from './algorithms/kmp';
+import { KMP } from './algorithms/KMP';
 import { VideoDocument } from './../videos/video.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { SearchRepository } from './search.repository';

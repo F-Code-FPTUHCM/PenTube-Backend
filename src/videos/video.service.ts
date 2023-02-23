@@ -1,5 +1,5 @@
 import { forwardRef } from '@nestjs/common/utils';
-import { UserDocument } from '../users/entities/user.schema';
+import { UserDocument } from '../Users/entities/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId, Query } from 'mongoose';
