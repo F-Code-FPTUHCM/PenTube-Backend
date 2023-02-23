@@ -1,13 +1,15 @@
-import { UserDocument } from '../users/entities/user.schema';
+import { forwardRef } from '@nestjs/common/utils';
+import { UserDocument } from '../Users/entities/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId, Query } from 'mongoose';
 import { LocationDocument, Video, VideoDocument, ViewDocument } from './video.schema';
 import { VideoDTO, ViewDTO, LocationDTO } from './video.dto';
-import { ResponseException } from './../Exception/ResponseException';
+// import { ResponseException } from './../Exception/ResponseException';
 import { InjectGeoIP2 } from 'nestjs-geoip2';
 import { ReaderModel } from '@maxmind/geoip2-node';
-import { stringify } from 'querystring';
+import { ResponseException } from '../Exception/ResponseException';
+import { SearchService } from '../search/search.service';
 @Injectable()
 export class VideoService {
     constructor(
@@ -16,6 +18,7 @@ export class VideoService {
         @InjectModel('Users') private readonly userModel: Model<UserDocument>,
         @InjectModel('Locations') private readonly locationModel: Model<LocationDocument>,
         @InjectGeoIP2() private readonly geoIPReaderModal: ReaderModel,
+        private readonly searchService: SearchService,
     ) {}
 
     async findAll(): Promise<Video[]> {
@@ -26,9 +29,15 @@ export class VideoService {
         return await this.videoModel.findById(id).exec();
     }
 
-    async postVideo(video: VideoDTO): Promise<Video> {
+    async postVideo(video: VideoDTO): Promise<boolean> {
         const newVideo = new this.videoModel(video);
-        return await newVideo.save();
+        const insertToTrie = await this.searchService.buildTrieByWord(
+            '',
+            newVideo._id.toString(),
+            video.title,
+            0,
+        );
+        return (await newVideo.save()) && insertToTrie;
     }
 
     async updateVideo(video: VideoDTO): Promise<any> {
@@ -94,10 +103,10 @@ export class VideoService {
 
         // check if exists
         if (!user) {
-            throw new ResponseException(404, 'User not found');
+            // throw new ResponseException(404, 'User not found');
         }
         if (!video) {
-            throw new ResponseException(404, 'Video not found');
+            // throw new ResponseException(404, 'Video not found');
         }
 
         // create new view if the person not viewed the video yet
@@ -124,6 +133,19 @@ export class VideoService {
 
         //save to database
         await newView.save();
+        return await video.save();
+    }
+    async updateLike(videoId: string, userId: string) {
+        console.log(videoId, userId);
+        const video = await this.videoModel.findById(videoId);
+        const user = await this.userModel.findById(userId);
+        if (!video) {
+            throw new ResponseException(404, 'Video not found');
+        }
+        if (!user) {
+            throw new ResponseException(404, 'User not found');
+        }
+        video.likes.push(user.id);
         return await video.save();
     }
 }

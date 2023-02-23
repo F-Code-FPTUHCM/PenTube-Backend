@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
-import { User } from 'src/users/entities/user.schema';
+import { User } from '../Users/entities/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
 export type ViewDocument = HydratedDocument<View>;
@@ -15,8 +16,9 @@ const CityRaw = {
     },
 };
 
-@Schema()
+@Schema({ id: true })
 export class Video {
+    @ApiProperty()
     @Prop({ required: true })
     title: string;
 
@@ -26,8 +28,8 @@ export class Video {
     @Prop({ required: true })
     description: string;
 
-    @Prop()
-    category: string;
+    // @Prop()
+    // category: string;
 
     @Prop([String])
     tags: string[];
@@ -41,10 +43,16 @@ export class Video {
     status: string;
 
     @Prop({ default: null })
+    thumbnail: string;
+
+    @Prop({ default: null })
     key: string;
 
+    @Prop()
+    views: View[];
+
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
-    likes: User[];
+    likes: string[];
 
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
     dislikes: User[];
@@ -53,10 +61,10 @@ export class Video {
     totalViews: number;
 
     @Prop({ type: mongoose.Schema.Types.Date, default: Date.now(), immutable: true })
-    createdAt: Date;
+    createdAt: string;
 
     @Prop({ type: mongoose.Schema.Types.Date, default: Date.now() })
-    updatedAt: Date;
+    updatedAt: string;
 }
 
 @Schema()

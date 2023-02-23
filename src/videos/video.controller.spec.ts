@@ -1,10 +1,16 @@
+import { AppConfig } from './../../config/config.module';
+import { ConfigModule } from '@nestjs/config';
+import { CheckToken } from '../utils/check-token';
+import { VideoModule } from './video.module';
+import { forwardRef } from '@nestjs/common/utils';
+import { AuthModule } from './../login/auth.module';
+import { SearchModule } from './../search/search.module';
 import { geoIPConfig } from './../../config/geoIP/config';
 import { GeoIP2Module } from 'nestjs-geoip2';
 import { configYAML } from './../../config/config';
-import { UsersSchema } from '../users/entities/user.schema';
+import { UsersSchema } from '../Users/entities/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Video, VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
-import { VideoDTO } from './video.dto';
 import { ResponseModal } from './../Response/response.modal';
 import { Test } from '@nestjs/testing';
 import { VideoService } from './video.service';
@@ -14,12 +20,12 @@ describe('VideoController', () => {
     let videoController: VideosController;
     let videoService: VideoService;
     beforeEach(async () => {
-        // Test clas has createTestingModule can take a module metadata object as it argument
+        // Test class has createTestingModule can take a module metadata object as it argument
         // (the same as object passed to the @Module decorator)
         // this return a testing module instance
         const moduleRef = await Test.createTestingModule({
             controllers: [VideosController],
-            providers: [VideoService],
+            providers: [VideoService, CheckToken],
             imports: [
                 MongooseModule.forFeature([
                     { name: 'Videos', schema: VideoSchema },
@@ -27,6 +33,11 @@ describe('VideoController', () => {
                     { name: 'Users', schema: UsersSchema },
                     { name: 'Locations', schema: LocationSchema },
                 ]),
+                SearchModule,
+                VideoModule,
+                AuthModule,
+                AppConfig,
+                ConfigModule.forRoot(),
                 MongooseModule.forRoot(configYAML().db.mongodb.host),
                 GeoIP2Module.forRoot(geoIPConfig),
             ],

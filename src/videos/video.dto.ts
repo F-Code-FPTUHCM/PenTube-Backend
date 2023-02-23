@@ -1,45 +1,68 @@
 import { City } from './video.schema';
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
-import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class VideoDTO {
+    @ApiProperty()
     @IsOptional()
     id: string;
+
+    @ApiProperty({
+        description: 'The title of the video',
+        minimum: 1,
+        default: 1,
+    })
     @IsNotEmpty({})
     title: string;
 
+    @ApiProperty()
     @IsNotEmpty()
     description: string;
 
+    @ApiProperty()
     category: string;
-
+    @ApiProperty()
     tags: string[];
-
+    @ApiProperty()
     @IsNotEmpty()
     url: string;
 
+    @ApiProperty()
     @IsNotEmpty()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     totalFrame: number;
 
+    @ApiProperty()
+    @IsNotEmpty()
     status: string;
 
+    @ApiProperty()
     key: string;
 
+    @ApiProperty()
     likes: string[];
-
+    @ApiProperty()
     dislikes: string[];
+
+    @ApiProperty()
+    @IsOptional()
+    @IsString({ message: invalidateMessage.invalid })
+    thumbnail: string;
 
     @IsOptional()
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
     totalViews: number;
 
+    @ApiProperty()
     @IsOptional()
     @IsDate({ message: invalidateMessage.invalid })
     createdAt: Date;
 
+    @ApiProperty()
     updatedAt: Date;
 }
 

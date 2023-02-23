@@ -1,6 +1,8 @@
+import { SearchService } from 'src/search/search.service';
+import { SearchModule } from './../search/search.module';
 import { AuthModule } from './../login/auth.module';
 import { CheckToken } from './../utils/check-token';
-import { UsersSchema } from '../users/entities/user.schema';
+import { UsersSchema } from '../Users/entities/user.schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
@@ -16,7 +18,9 @@ import { VideosController } from './video.controller';
             { name: 'Locations', schema: LocationSchema },
         ]),
         AuthModule,
+        SearchModule,
     ],
+    exports: [VideoService],
     controllers: [VideosController],
     providers: [VideoService, CheckToken],
 })

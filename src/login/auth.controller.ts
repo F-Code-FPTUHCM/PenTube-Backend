@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { response } from 'express';
 
 @Controller()
 export class LoginController {
@@ -30,6 +31,8 @@ export class LoginController {
     async handleRedirect(@Req() request) {
         const user = request.user.user;
         const tokens = await this.authService.createToken({ email: user.email, sub: user._id });
+        //TODO: update redirect to FE with token
+        // response.redirect('');
         return {
             code: 200,
             message: 'Success',
