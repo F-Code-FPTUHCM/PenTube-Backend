@@ -8,8 +8,8 @@ import { VideoDTO, ViewDTO, LocationDTO } from './video.dto';
 // import { ResponseException } from './../Exception/ResponseException';
 import { InjectGeoIP2 } from 'nestjs-geoip2';
 import { ReaderModel } from '@maxmind/geoip2-node';
-import { ResponseException } from 'src/Exception/ResponseException';
-import { SearchService } from 'src/search/search.service';
+import { ResponseException } from '../Exception/ResponseException';
+import { SearchService } from '../search/search.service';
 @Injectable()
 export class VideoService {
     constructor(

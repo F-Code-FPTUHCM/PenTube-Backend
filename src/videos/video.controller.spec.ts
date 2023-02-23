@@ -1,3 +1,10 @@
+import { AppConfig } from './../../config/config.module';
+import { ConfigModule } from '@nestjs/config';
+import { CheckToken } from '../utils/check-token';
+import { VideoModule } from './video.module';
+import { forwardRef } from '@nestjs/common/utils';
+import { AuthModule } from './../login/auth.module';
+import { SearchModule } from './../search/search.module';
 import { geoIPConfig } from './../../config/geoIP/config';
 import { GeoIP2Module } from 'nestjs-geoip2';
 import { configYAML } from './../../config/config';
@@ -18,7 +25,7 @@ describe('VideoController', () => {
         // this return a testing module instance
         const moduleRef = await Test.createTestingModule({
             controllers: [VideosController],
-            providers: [VideoService],
+            providers: [VideoService, CheckToken],
             imports: [
                 MongooseModule.forFeature([
                     { name: 'Videos', schema: VideoSchema },
@@ -26,6 +33,11 @@ describe('VideoController', () => {
                     { name: 'Users', schema: UsersSchema },
                     { name: 'Locations', schema: LocationSchema },
                 ]),
+                SearchModule,
+                VideoModule,
+                AuthModule,
+                AppConfig,
+                ConfigModule.forRoot(),
                 MongooseModule.forRoot(configYAML().db.mongodb.host),
                 GeoIP2Module.forRoot(geoIPConfig),
             ],
