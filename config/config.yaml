@@ -1,11 +1,11 @@
 api:
     version: v1
 http:
-    port: 4000
+    port: 10001
     host: 'localhost'
 db:
     mongodb:
-        host: 'mongodb://0.0.0.0/YoutubeClone'
+        host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
 google:
     client_id: '696128677582-6rk64gpf4bf2inlquviv5au3e154ee0m.apps.googleusercontent.com'
     client_secret: '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'
@@ -15,9 +15,7 @@ token:
     secret_rt: 'secret-token-rt'
     secret_at: 'secret-token-at'
 redis:
-    host: 'localhost'
-    port: 6379
-    user: ''
-mail:
-    sendgrid:
-        api_key: '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'
+    host: 'youtube-clone-do-user-12577841-0.b.db.ondigitalocean.com'
+    port: 25061
+    user: 'default'
+    password: 'AVNS_z6JLT9Zv7vwwkF0ukmM'
