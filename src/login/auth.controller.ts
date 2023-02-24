@@ -31,16 +31,23 @@ export class LoginController {
     async handleRedirect(@Req() request) {
         const user = request.user.user;
         const tokens = await this.authService.createToken({ email: user.email, sub: user._id });
-        //TODO: update redirect to FE with token
-        // response.redirect('');
-        return {
-            code: 200,
-            message: 'Success',
-            data: {
-                ...tokens,
-                type: request.user.type,
-            },
-        };
+
+        if (request.user.type === 'register')
+            response.redirect(
+                `https://vercel-youtube.vercel.app/register?token=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`,
+            );
+        else
+            response.redirect(
+                `https://vercel-youtube.vercel.app/?token=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`,
+            );
+        // return {
+        //     code: 200,
+        //     message: 'Success',
+        //     data: {
+        //         ...tokens,
+        //         type: request.user.type,
+        //     },
+        // };
     }
 
     //POST [auth/logout]
