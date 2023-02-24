@@ -16,7 +16,7 @@ import { VideosController } from './video.controller';
             { name: 'Views', schema: ViewVideoSchema },
             { name: 'Users', schema: UsersSchema },
             { name: 'Locations', schema: LocationSchema },
-            { name: 'Channel', schema: ChannelSchema },
+            { name: 'Channels', schema: ChannelSchema },
         ]),
         AuthModule,
         SearchModule,
