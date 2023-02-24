@@ -22,20 +22,21 @@ export class VideoService {
     ) {}
 
     async findAll(): Promise<Video[]> {
-        return await this.videoModel.find().exec();
+        const videos: Video[] = await this.videoModel.find().populate('channel').exec();
+        videos.filter(video => video.key === null);
+        return videos;
     }
 
     async getOne(id: string): Promise<Video> {
-        return await this.videoModel.findById(id).exec();
+        const video = await this.videoModel.findById(id).populate('channel').exec();
+        return video;
     }
 
     async postVideo(video: VideoDTO): Promise<boolean> {
         const newVideo = new this.videoModel(video);
-        const insertToTrie = await this.searchService.buildTrieByWord(
-            '',
+        const insertToTrie = await this.searchService.buildTrieByTitle(
+            newVideo.title,
             newVideo._id.toString(),
-            video.title,
-            0,
         );
         return (await newVideo.save()) && insertToTrie;
     }

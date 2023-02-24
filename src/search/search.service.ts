@@ -1,3 +1,4 @@
+import { VideoDTO } from './../videos/video.dto';
 import { VietnameseConverter } from './../utils/vietnameseConverter';
 import { KMP } from './algorithms/KMP';
 import { VideoDocument } from './../videos/video.schema';
@@ -24,20 +25,27 @@ export class SearchService {
         const listWord: string[] = content.split(/[^a-zA-Z]/);
         let result: ResultVideo[] = [];
         for (let i = 0; i < listWord.length; i++) {
-            if (listWord[i] && listWord[i] !== '') {
-                const temp: ResultVideo[] = await this.KMPAlgorithms(listWord[i]);
-                for (let j = 0; j < temp.length; j++) {
-                    let ok = true;
-                    result = result.map(res => {
-                        if (res.url === temp[j].url) {
-                            ok = false;
-                            return { ...temp[j], score: res.score + temp[j].score };
-                        }
-                        return res;
-                    });
-                    if (ok) result.push(temp[j]);
-                }
+            const temp: ResultVideo[] = await this.KMPAlgorithms(listWord[i]);
+            for (let j = 0; j < temp.length; j++) {
+                let ok = true;
+                result = result.map(res => {
+                    const video = new this.videoModel(res);
+                    const videoTmp = new this.videoModel(temp[j]);
+                    if (video.id === videoTmp.id) {
+                        ok = false;
+                        return { ...temp[j], score: res.score + temp[j].score };
+                    }
+                    return res;
+                });
+                if (ok) result.push(temp[j]);
             }
+        }
+        if (result.length > 0) {
+            result.sort((a, b) => {
+                if (a.score < b.score) return 1;
+                else if (a.score > b.score) return -1;
+                else return b.totalViews - a.totalViews;
+            });
         }
         return result;
     }
@@ -46,6 +54,9 @@ export class SearchService {
         let newWord = word;
         let trie = await this.searchRepository.getTrieByChar(word);
         let videoList = trie ? trie.videoList : [];
+        if (word === '') {
+            return videoList;
+        }
         while (newWord !== '' && videoList.length < 10) {
             newWord = newWord.substring(0, newWord.length - 2);
             trie = await this.searchRepository.getTrieByChar(newWord);
