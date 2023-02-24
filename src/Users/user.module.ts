@@ -23,7 +23,7 @@ import { UsersSchema } from './entities/user.schema';
         ConfigModule,
         JwtModule.register({}),
         CacheModule.register({
-            // isGlobal: true,
+            isGlobal: true,
             store: redisStore,
             host: configYAML().redis.host,
             port: configYAML().redis.post,
