@@ -54,7 +54,7 @@ jobs:
                   # Version of doctl to install
                   version: latest # optional, default is latest
                   # DigitalOcean API Token
-                  token: dop_v1_483686879dc8c675c9b95b4c7867aa72c9a46f9ed27da6ab66a3c330eb828aba
+                  token: dop_v1_f577106fa74d110deb357b5c2f18fa29f78be9bd823866a76abc158094b350ce
 
             - name: DigitalOcean App Platform deployment
               # You may pin to the exact commit or the version.
@@ -64,6 +64,6 @@ jobs:
                   # Name of the app. (The name of the app must be unique across all apps in the same account.)
                   app_name: walrus-app
                   # DigitalOcean Personal Access Token.(use https://docs.digitalocean.com/reference/api/create-personal-access-token/ for creating new token)
-                  token: dop_v1_483686879dc8c675c9b95b4c7867aa72c9a46f9ed27da6ab66a3c330eb828aba
+                  token: dop_v1_f577106fa74d110deb357b5c2f18fa29f78be9bd823866a76abc158094b350ce
                   # (OPTIONAL)a json array of objects with the properties name (description), repository (repo url), tag (image tag)
                   #  images: # optional, default is
