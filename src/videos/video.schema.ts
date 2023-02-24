@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import mongoose, { HydratedDocument, Mongoose, Types } from 'mongoose';
+import mongoose, { Document, HydratedDocument, Mongoose, Types } from 'mongoose';
 import { User } from '../Users/entities/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
@@ -29,8 +29,8 @@ export class Video {
     @Prop({ required: true })
     title: string;
 
-    @Prop({ type: mongoose.Types.ObjectId, ref: 'Channel', required: true })
-    channel: Types.ObjectId;
+    @Prop({ type: mongoose.Types.ObjectId, ref: 'Channels', required: true })
+    channel: Channel;
 
     @Prop({ required: true })
     description: string;
