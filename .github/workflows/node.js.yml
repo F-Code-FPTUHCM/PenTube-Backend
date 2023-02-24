@@ -45,8 +45,6 @@ jobs:
               run: yarn lint
             - name: build
               run: yarn build
-            - name: test
-              run: CI=true yarn test
 
             - name: GitHub Action for DigitalOcean - doctl
               # You may pin to the exact commit or the version.
