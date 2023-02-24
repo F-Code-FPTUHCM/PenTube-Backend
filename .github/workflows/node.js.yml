@@ -4,62 +4,68 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "main" , "dev"]
-  pull_request:
-    branches: [ "main" , "dev"]
+    push:
+        branches: ['main', 'dev', 'deployment']
+    pull_request:
+        branches: ['main', 'dev', 'deployment']
 
 jobs:
-  build:
+    build:
+        runs-on: ubuntu-latest
 
-    runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x, 18.x]
+                os: [ubuntu-latest, windows-latest]
+                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
-        os: [ubuntu-latest, windows-latest]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: 'npm'
+            - name: yarn Setup
+              uses: DerYeger/yarn-setup-action@v1.0.1
+              with:
+                  # The version of Node.js that will be used
+                  node-version: 16.x
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Yarn Setup
-      uses: DerYeger/yarn-setup-action@v1.0.1
-      with:
-        # The version of Node.js that will be used
-        node-version: 16.x
-    - name: ci
-      run: yarn install --frozen-lockfile
-    - name: build
-      run: yarn build
-    - name: test
-      run: CI=true yarn test --passWithNoTests
-#   deploy: 
-#       runs-on: ubuntu-latest
-      
-#       steps:
-#       - name: GitHub Action for DigitalOcean - doctl
-#       # You may pin to the exact commit or the version.
-#       # uses: digitalocean/action-doctl@ba7726ed64a9c5eb774152b1ea03bf67ee81ad6e
-#         uses: digitalocean/action-doctl@v2.3.0
-#         with:
-#           # Version of doctl to install
-#           version: latest # optional, default is latest
-#           # DigitalOcean API Token
-#           token: dop_v1_8bb4f80db199ff99e29c6ce552024ed4fa2d3806a8481e5e23125d5fe88a87ff
+            - name: Setup Redis
+              uses: zhulik/redis-action@1.1.0
+              with:
+                  # Version of Redis to use
+                  redis version: latest
+                  # Number of Redis databases
+                  number of databases: 16
+            - name: ci
+              run: yarn install --frozen-lockfile
+            - name: lint
+              run: yarn lint
+            - name: build
+              run: yarn build
+            - name: test
+              run: CI=true yarn test
 
-#       - name: DigitalOcean App Platform deployment
-#         # You may pin to the exact commit or the version.
-#         # uses: digitalocean/app_action@16c153041a30666f3c2b238231979ce17d2d30e8
-#         uses: digitalocean/app_action@v1.1.4
-#         with:
-#           # Name of the app. (The name of the app must be unique across all apps in the same account.)
-#           app_name: walrus-app
-#           # DigitalOcean Personal Access Token.(use https://docs.digitalocean.com/reference/api/create-personal-access-token/ for creating new token)
-#           token: dop_v1_8bb4f80db199ff99e29c6ce552024ed4fa2d3806a8481e5e23125d5fe88a87ff
-#           # (OPTIONAL)a json array of objects with the properties name (description), repository (repo url), tag (image tag)
-#           #  images: # optional, default is 
+            - name: GitHub Action for DigitalOcean - doctl
+              # You may pin to the exact commit or the version.
+              # uses: digitalocean/action-doctl@ba7726ed64a9c5eb774152b1ea03bf67ee81ad6e
+              uses: digitalocean/action-doctl@v2.3.0
+              with:
+                  # Version of doctl to install
+                  version: latest # optional, default is latest
+                  # DigitalOcean API Token
+                  token: dop_v1_8bb4f80db199ff99e29c6ce552024ed4fa2d3806a8481e5e23125d5fe88a87ff
+
+            - name: DigitalOcean App Platform deployment
+              # You may pin to the exact commit or the version.
+              # uses: digitalocean/app_action@16c153041a30666f3c2b238231979ce17d2d30e8
+              uses: digitalocean/app_action@v1.1.4
+              with:
+                  # Name of the app. (The name of the app must be unique across all apps in the same account.)
+                  app_name: walrus-app
+                  # DigitalOcean Personal Access Token.(use https://docs.digitalocean.com/reference/api/create-personal-access-token/ for creating new token)
+                  token: dop_v1_8bb4f80db199ff99e29c6ce552024ed4fa2d3806a8481e5e23125d5fe88a87ff
+                  # (OPTIONAL)a json array of objects with the properties name (description), repository (repo url), tag (image tag)
+                  #  images: # optional, default is
