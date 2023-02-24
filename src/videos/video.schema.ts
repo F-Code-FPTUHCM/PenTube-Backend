@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import mongoose, { HydratedDocument, Mongoose } from 'mongoose';
+import mongoose, { HydratedDocument, Mongoose, Types } from 'mongoose';
 import { User } from '../Users/entities/user.schema';
 
 export type VideoDocument = HydratedDocument<Video>;
 export type ViewDocument = HydratedDocument<View>;
 export type LocationDocument = HydratedDocument<Location>;
-
+export type ChannelDocument = HydratedDocument<Channel>;
 const CityRaw = {
     name: {
         type: String,
@@ -15,6 +15,13 @@ const CityRaw = {
         type: Number,
     },
 };
+@Schema()
+export class Channel {
+    @Prop({ required: true })
+    name: string;
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
+    userId: string;
+}
 
 @Schema({ id: true })
 export class Video {
@@ -22,8 +29,8 @@ export class Video {
     @Prop({ required: true })
     title: string;
 
-    // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Channel', required: true })
-    // channelId: Channel;
+    @Prop({ type: mongoose.Types.ObjectId, ref: 'Channel', required: true })
+    channel: Types.ObjectId;
 
     @Prop({ required: true })
     description: string;
@@ -117,3 +124,4 @@ export class Location {
 export const VideoSchema = SchemaFactory.createForClass(Video);
 export const ViewVideoSchema = SchemaFactory.createForClass(View);
 export const LocationSchema = SchemaFactory.createForClass(Location);
+export const ChannelSchema = SchemaFactory.createForClass(Channel);

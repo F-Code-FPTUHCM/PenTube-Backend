@@ -1,4 +1,4 @@
-import { City } from './video.schema';
+import { City, Channel } from './video.schema';
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
@@ -18,6 +18,9 @@ export class VideoDTO {
     @IsNotEmpty({})
     title: string;
 
+    @ApiProperty()
+    @IsNotEmpty()
+    channel: string;
     @ApiProperty()
     @IsNotEmpty()
     description: string;
@@ -126,4 +129,14 @@ export class LocationDTO {
         this.code = location.country.isoCode;
         this.totalView = 0;
     }
+}
+export class ChannelDTO {
+    @IsNotEmpty()
+    id: string;
+
+    @IsNotEmpty()
+    name: string;
+
+    @IsNotEmpty()
+    userId: string;
 }

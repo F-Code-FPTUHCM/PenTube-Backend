@@ -5,7 +5,7 @@ import { CheckToken } from './../utils/check-token';
 import { UsersSchema } from '../Users/entities/user.schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VideoSchema, ViewVideoSchema, LocationSchema } from './video.schema';
+import { VideoSchema, ViewVideoSchema, LocationSchema, ChannelSchema } from './video.schema';
 import { VideoService } from './video.service';
 import { VideosController } from './video.controller';
 
@@ -16,6 +16,7 @@ import { VideosController } from './video.controller';
             { name: 'Views', schema: ViewVideoSchema },
             { name: 'Users', schema: UsersSchema },
             { name: 'Locations', schema: LocationSchema },
+            { name: 'Channel', schema: ChannelSchema },
         ]),
         AuthModule,
         SearchModule,
