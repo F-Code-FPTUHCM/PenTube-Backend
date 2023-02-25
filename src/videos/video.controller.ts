@@ -11,7 +11,7 @@ import { VideoService } from './video.service';
 import { VideoDTO, ViewDTO } from './video.dto';
 import { ResponseModal } from './../Response/response.modal';
 import { Param, Req, UseGuards, UsePipes } from '@nestjs/common/decorators';
-import { RealIP } from 'nestjs-real-ip';
+import { RealIp, RealIP } from 'nestjs-real-ip';
 import { ApiCreatedResponse } from '@nestjs/swagger';
 @Controller()
 export class VideosController {
@@ -24,8 +24,9 @@ export class VideosController {
     }
     @Get(':id')
     @ApiCreatedResponse({ description: 'Get video by id', type: Video })
-    async findOne(@Param('id') id: string): Promise<ResponseModal<Video>> {
-        const result = await this.videoService.getOne(id);
+    async findOne(@Param('id') id: string, @RealIP() ip): Promise<ResponseModal<Video>> {
+        const realIp = ip.split(':')[2];
+        const result = await this.videoService.getOne(id, ip);
         return new ResponseModal<Video>(200, 'Success', result);
     }
     @Post()
@@ -36,11 +37,10 @@ export class VideosController {
     }
 
     @Put('/view')
-    @UseGuards(AuthGuard('check-token'))
     async updateView(@Body() viewDTO: ViewDTO, @RealIP() ip: string): Promise<ResponseModal> {
-        const realIp = ip.split(':')[3];
-        // TODO: change to real ip when public
-        await this.videoService.updateView(viewDTO, DEMO_IP.GB);
+        const realIp = ip.split(':')[2];
+        console.log(realIp);
+        await this.videoService.updateView(viewDTO, ip);
         return new ResponseModal(200, 'Success');
     }
     @Post('/like')
@@ -48,10 +48,7 @@ export class VideosController {
     async updateLike(
         @Body('videoId') videoId: string,
         @Body('userId') userId: string,
-        @RealIP() ip: string,
     ): Promise<ResponseModal> {
-        const realIp = ip.split(':')[3];
-        console.log(userId, videoId);
         const result = await this.videoService.updateLike(videoId, userId);
         return new ResponseModal(200, 'Success');
     }

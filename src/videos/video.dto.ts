@@ -1,3 +1,4 @@
+import { Ip } from '@nestjs/common';
 import { City, Channel } from './video.schema';
 import { invalidateMessage } from './../../config/validationPipes/config';
 import { IsDate, IsEmpty, IsNotEmpty, IsNumber, Min, ValidateIf } from '@nestjs/class-validator';
@@ -70,11 +71,11 @@ export class VideoDTO {
 }
 
 export class ViewDTO {
-    @IsNotEmpty({
-        message: invalidateMessage.required,
-    })
+    @IsOptional()
     userId: string;
 
+    @IsOptional()
+    ip: string;
     @IsNotEmpty({
         message: invalidateMessage.required,
     })
@@ -93,10 +94,6 @@ export class ViewDTO {
     @IsNumber({ allowInfinity: true }, { message: invalidateMessage.invalid })
     @Min(0, { message: invalidateMessage.invalid })
     currentFrame: number;
-
-    @IsOptional()
-    @IsBoolean()
-    isWatched: boolean;
 
     @IsOptional()
     location: string[];
