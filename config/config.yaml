@@ -7,15 +7,15 @@ db:
     mongodb:
         host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
 google:
-    client_id: '696128677582-6rk64gpf4bf2inlquviv5au3e154ee0m.apps.googleusercontent.com'
-    client_secret: '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'
+    client_id: '379611883013-4ek6s1lmcj54d3if8the6j47avlnqkpq.apps.googleusercontent.com'
+    client_secret: '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'
     redirect_uri: 'http://localhost:4000/auth/google/redirect'
     session_secret: 'uiqweoiypqtjenmdmanvuisadslkfaslnbvxchfiweurybdzbckbckdb'
 token:
     secret_rt: 'secret-token-rt'
     secret_at: 'secret-token-at'
 redis:
-    host: 'localhost'
-    port: 6379
-    user: ''
-    password: ''
+    host: 'youtube-clone-do-user-12577841-0.b.db.ondigitalocean.com'
+    port: 25061
+    user: 'default'
+    password: 'AVNS_z6JLT9Zv7vwwkF0ukmM'
