@@ -9,7 +9,7 @@ db:
 google:
     client_id: '379611883013-4ek6s1lmcj54d3if8the6j47avlnqkpq.apps.googleusercontent.com'
     client_secret: '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'
-    redirect_uri: 'http://localhost:4000/auth/google/redirect'
+    redirect_uri: 'https://video.tochimcanhcut.live/auth/google/redirect'
     session_secret: 'uiqweoiypqtjenmdmanvuisadslkfaslnbvxchfiweurybdzbckbckdb'
 token:
     secret_rt: 'secret-token-rt'
