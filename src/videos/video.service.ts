@@ -2,7 +2,7 @@ import { forwardRef } from '@nestjs/common/utils';
 import { UserDocument } from '../Users/entities/user.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Query } from 'mongoose';
+import mongoose, { Model, ObjectId, Query } from 'mongoose';
 import { LocationDocument, Video, VideoDocument, ViewDocument } from './video.schema';
 import { VideoDTO, ViewDTO, LocationDTO } from './video.dto';
 // import { ResponseException } from './../Exception/ResponseException';
@@ -27,8 +27,16 @@ export class VideoService {
         return videos;
     }
 
-    async getOne(id: string): Promise<Video> {
-        const video = await this.videoModel.findById(id).populate('channel').exec();
+    async getOne(id: string, ip: string): Promise<Video> {
+        const video = await this.videoModel
+            .findById(id)
+            .populate('channel')
+            .populate('views')
+            .exec();
+        if (!video) {
+            throw new ResponseException(404, 'Not found video');
+        }
+        video.views = video.views.filter(view => view.ip === ip);
         return video;
     }
 
@@ -93,42 +101,44 @@ export class VideoService {
     async updateView(viewDTO: ViewDTO, ip: string): Promise<any> {
         // find existing video and view
         const video = await this.videoModel.findById(viewDTO.videoId).exec();
-        const user = await this.userModel.findById(viewDTO.userId).exec();
         let newView = await this.viewModel
             .findOne({
-                userId: viewDTO.userId,
+                ip: ip,
                 videoId: viewDTO.videoId,
             })
             .populate('location')
             .exec();
 
-        // check if exists
-        if (!user) {
-            // throw new ResponseException(404, 'User not found');
-        }
+        // check if exists video
         if (!video) {
-            // throw new ResponseException(404, 'Video not found');
+            throw new ResponseException(404, 'Video not found');
         }
-
+        if (newView && newView.userId) {
+            viewDTO.userId = newView.userId;
+        }
+        // if user not logged in, create a fake userId to fix the error userId is null
+        if (!viewDTO.userId) {
+            viewDTO.userId = new mongoose.Types.ObjectId().toString();
+        }
         // create new view if the person not viewed the video yet
         if (!newView) {
+            viewDTO.ip = ip;
             newView = new this.viewModel(viewDTO);
             newView.count = 0;
         } else {
-            await this.videoModel.updateOne(viewDTO).exec();
+            await this.viewModel.updateOne(viewDTO).exec();
         }
         // Update view by check the number of frame viewed
-        if (viewDTO.frameWatched / video.totalFrame > 0.9 && !newView.isWatched) {
+        if (viewDTO.frameWatched / video.totalFrame > 0.9) {
             //update location view by Ip
             await this.updateLocationView(ip, newView.location);
             //accept the view
+            newView.currentFrame = 0;
             newView.count++;
-            newView.isWatched = true;
-        }
-        // reset frame watched when it is full
-        if (viewDTO.frameWatched === video.totalFrame) {
             newView.frameWatched = 0;
-            newView.isWatched = false;
+            if (!video.views.find(view => view === newView.id)) {
+                video.views.push(newView.id);
+            }
         }
         video.totalViews++;
 

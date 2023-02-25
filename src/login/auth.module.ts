@@ -24,7 +24,7 @@ import * as redisStore from 'cache-manager-redis-store';
         ConfigModule,
         JwtModule.register({}),
         CacheModule.register({
-            // isGlobal: true,
+            isGlobal: true,
             store: redisStore,
             host: configYAML().redis.host,
             port: configYAML().redis.post,

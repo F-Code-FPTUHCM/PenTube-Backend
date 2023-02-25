@@ -29,8 +29,8 @@ export class Video {
     @Prop({ required: true })
     title: string;
 
-    @Prop({ type: mongoose.Types.ObjectId, ref: 'Channels', required: true })
-    channel: Channel;
+    @Prop({ type: mongoose.Types.ObjectId, ref: 'Channels' })
+    channel: string;
 
     @Prop({ required: true })
     description: string;
@@ -55,7 +55,7 @@ export class Video {
     @Prop({ default: null })
     key: string;
 
-    @Prop()
+    @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Views' }] })
     views: View[];
 
     @Prop({ default: [], type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }] })
@@ -76,8 +76,11 @@ export class Video {
 
 @Schema()
 export class View {
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true })
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Users' })
     userId: string;
+
+    @Prop({ required: true })
+    ip: string;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Videos', required: true })
     videoId: string;
@@ -90,9 +93,6 @@ export class View {
 
     @Prop({ default: 0, min: 0 })
     count: number;
-
-    @Prop({ default: 0, min: 0 })
-    isWatched: boolean;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Locations' }] })
     location: Location[];

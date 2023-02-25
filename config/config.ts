@@ -7,5 +7,4 @@ export const configYAML: () => Record<string, any> = () => {
     const YAML_CONFIG_URI = 'config.yaml';
     return yaml.load(readFileSync(join(__dirname, YAML_CONFIG_URI), 'utf8')) as Record<string, any>;
 };
-
 export default configYAML;

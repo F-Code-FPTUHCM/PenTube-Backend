@@ -52,7 +52,7 @@ describe('VideoController', () => {
             const videos = await videoService.findAll();
             const result = new ResponseModal<Video[]>(200, 'Success', videos);
             jest.spyOn(videoService, 'findAll').mockImplementation(async () => await videos);
-            await expect(videoController.findAll()).resolves.toStrictEqual(result);
+            return await expect(videoController.findAll()).resolves.toStrictEqual(result);
         });
     });
 
@@ -62,7 +62,7 @@ describe('VideoController', () => {
             const video = await videoService.getOne(id);
             const result = new ResponseModal<Video>(200, 'Success', video);
             jest.spyOn(videoService, 'getOne').mockImplementation(async () => video);
-            await expect(videoController.findOne(id)).resolves.toStrictEqual(result);
+            return await expect(videoController.findOne(id)).resolves.toStrictEqual(result);
         });
     });
 });
