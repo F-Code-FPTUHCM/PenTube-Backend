@@ -147,7 +147,6 @@ export class VideoService {
         return await video.save();
     }
     async updateLike(videoId: string, userId: string) {
-        console.log(videoId, userId);
         const video = await this.videoModel.findById(videoId);
         const user = await this.userModel.findById(userId);
         if (!video) {

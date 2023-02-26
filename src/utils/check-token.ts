@@ -22,17 +22,12 @@ export class CheckToken extends PassportStrategy(Strategy, 'check-token') {
     }
 
     async validate(req: Request, payload: JwtPayload) {
-        try {
-            const token = req.get('authorization').replace('Bearer', '').trim();
-            const statusToken = await this.authService.checkToken(token);
-            if (statusToken) throw new ForbiddenException('Access denied. Please re-login.');
-            else
-                return {
-                    ...payload,
-                    token,
-                };
-        } catch (error) {
-            throw new ForbiddenException('Access denied. Please re-login.');
-        }
+        const token = req.get('authorization').replace('Bearer', '').trim();
+        const statusToken = await this.authService.checkToken(token);
+        if (statusToken) throw new ForbiddenException('Access denied. Please re-login.');
+        return {
+            ...payload,
+            token,
+        };
     }
 }

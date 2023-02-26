@@ -15,7 +15,7 @@ token:
     secret_rt: 'secret-token-rt'
     secret_at: 'secret-token-at'
 redis:
-    host: 'youtube-clone-do-user-12577841-0.b.db.ondigitalocean.com'
-    port: 25061
+    host: 'redis-13241.c1.asia-northeast1-1.gce.cloud.redislabs.com'
+    port: 13241
     user: 'default'
-    password: 'AVNS_z6JLT9Zv7vwwkF0ukmM'
+    password: 'J0BVP7zwsIClEsKiXCroKqOIp6eVBcXl'
