@@ -2,13 +2,13 @@ api:
     version: v1
 http:
     port: 10001
-    host: 'localhost'
+    host: 'https://vercel-youtube.vercel.app/'
 db:
     mongodb:
         host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
 google:
-    client_id: '696128677582-6rk64gpf4bf2inlquviv5au3e154ee0m.apps.googleusercontent.com'
-    client_secret: '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'
+    client_id: '379611883013-4ek6s1lmcj54d3if8the6j47avlnqkpq.apps.googleusercontent.com'
+    client_secret: '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'
     redirect_uri: 'https://video.tochimcanhcut.live/auth/google/redirect'
     session_secret: 'uiqweoiypqtjenmdmanvuisadslkfaslnbvxchfiweurybdzbckbckdb'
 token:
