@@ -27,7 +27,7 @@ import { UsersSchema } from './entities/user.schema';
             store: redisStore,
             host: configYAML().redis.host,
             port: configYAML().redis.port,
-            username: configYAML().redis.user,
+            user: configYAML().redis.user,
             password: configYAML().redis.password,
             no_ready_check: true,
         }),

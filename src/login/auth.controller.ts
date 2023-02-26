@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { GoogleLoginGuard } from './utils/Guards';
 import {
     Controller,
@@ -11,11 +12,14 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { response } from 'express';
+import { Res } from '@nestjs/common/decorators';
 
 @Controller()
 export class LoginController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly configService: ConfigService,
+    ) {}
     //GET [auth/login/google]
     @Get('login/google')
     @UseGuards(GoogleLoginGuard)
@@ -28,17 +32,21 @@ export class LoginController {
     @Get('google/redirect')
     @UseGuards(GoogleLoginGuard)
     @HttpCode(HttpStatus.OK)
-    async handleRedirect(@Req() request) {
+    async handleRedirect(@Req() request, @Res() response) {
         const user = request.user.user;
         const tokens = await this.authService.createToken({ email: user.email, sub: user._id });
 
         if (request.user.type === 'register')
             response.redirect(
-                `https://vercel-youtube.vercel.app/register?token=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`,
+                `${this.configService.get<string>('http.host')}/register?token=${
+                    tokens.accessToken
+                }&refreshToken=${tokens.refreshToken}`,
             );
         else
             response.redirect(
-                `https://vercel-youtube.vercel.app/?token=${tokens.accessToken}&refreshToken=${tokens.refreshToken}`,
+                `${this.configService.get<string>('http.host')}/?token=${
+                    tokens.accessToken
+                }&refreshToken=${tokens.refreshToken}`,
             );
         // return {
         //     code: 200,

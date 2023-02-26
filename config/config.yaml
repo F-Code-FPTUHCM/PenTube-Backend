@@ -2,7 +2,7 @@ api:
     version: v1
 http:
     port: 10001
-    host: 'localhost'
+    host: 'https://vercel-youtube.vercel.app/'
 db:
     mongodb:
         host: 'mongodb+srv://nghia14302:nghia14302@cluster0.h7rsd.mongodb.net/YoutubeClone'
